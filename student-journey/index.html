@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%233651F5%27/%3E%3Cpath d=%27M8 22c3-8 6-12 9-12s4 3 2 6-6 3-6 0 5-6 10-5%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+<title>Student Journey · Futures PlayLab · Master of Technological Futures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Futures PlayLab · Student Journey dashboard
+   Edit the DATA section in the <script> at the bottom to update
+   dates, links and contacts. No build step needed.
+   ============================================================ */
+:root{
+  --paper:#EEF1F7;
+  --card:#FFFFFF;
+  --ink:#172038;
+  --ink-2:#4A5372;
+  --ink-3:#7D86A3;
+  --line:#E1E5EF;
+  --blue:#3651F5;
+  --blue-deep:#2238C4;
+  --blue-soft:#E4E8FF;
+  --peach:#FFD5C2;   --peach-ink:#9A3B12;
+  --lilac:#DDD7FF;   --lilac-ink:#4B3AB0;
+  --mint:#CBEFD8;    --mint-ink:#1D6B3E;
+  --butter:#FFEDA8;  --butter-ink:#7A5A00;
+  --r-xl:28px; --r-lg:20px; --r-md:14px; --r-sm:10px;
+  --shadow:0 1px 0 rgba(23,32,56,.04), 0 8px 24px -12px rgba(34,56,196,.18);
+  --display:"Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--blue-deep)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.01em;line-height:1.15}
+p{margin:0}
+
+/* ---------- App shell ---------- */
+.app{display:grid;grid-template-columns:236px 1fr;min-height:100vh;gap:18px;padding:18px}
+.side{background:var(--blue);color:#fff;border-radius:var(--r-xl);padding:22px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:18px;height:calc(100vh - 36px);overflow:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 10px 18px}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:#fff;display:grid;place-items:center}
+.brand b{font-family:var(--display);font-size:19px;display:block;line-height:1.1}
+.brand small{opacity:.75;font-size:12.5px}
+.nav{display:flex;flex-direction:column;gap:3px}
+.nav button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;font-weight:500;font-size:14.5px;color:rgba(255,255,255,.82)}
+.nav button svg{width:19px;height:19px;flex:none}
+.nav button:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav button[aria-current="page"]{background:#fff;color:var(--blue-deep);font-weight:700}
+.nav button:focus-visible{outline:3px solid #fff;outline-offset:1px}
+.side-foot{margin-top:auto;background:rgba(255,255,255,.12);border-radius:var(--r-lg);padding:16px;font-size:13.5px}
+.side-foot p{opacity:.9;margin-bottom:10px}
+.side-foot a{display:inline-block;background:#fff;color:var(--blue-deep);text-decoration:none;font-weight:700;padding:8px 14px;border-radius:999px;font-size:13px}
+
+.main{min-width:0;display:flex;flex-direction:column;gap:18px}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:12px 18px 12px 44px;font-size:14.5px}
+.search input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;color:var(--ink-3)}
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:8px;z-index:20;max-height:360px;overflow:auto;display:none}
+.results.open{display:block}
+.results button{all:unset;cursor:pointer;display:block;width:100%;box-sizing:border-box;padding:10px 12px;border-radius:12px}
+.results button:hover,.results button:focus-visible{background:var(--blue-soft);outline:none}
+.results b{display:block;font-weight:600;font-size:14px}
+.results span{font-size:12.5px;color:var(--ink-3)}
+.results .empty{padding:12px;color:var(--ink-3);font-size:14px}
+.week-picker{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 6px 5px 16px;font-size:14px;font-weight:500}
+.week-picker label{color:var(--ink-2)}
+.week-picker select{border:none;background:var(--blue-soft);color:var(--blue-deep);font-weight:700;border-radius:999px;padding:7px 10px;cursor:pointer}
+
+.wk-auto{display:flex;flex-direction:column;line-height:1.15;padding:3px 12px 3px 0}
+.wk-auto b{color:var(--blue-deep);font-size:14.5px}
+.wk-auto small{font-size:11.5px;color:var(--ink-3);font-weight:500}
+.week-picker[hidden]{display:none}
+[hidden]{display:none!important}
+.cohort-prompt{background:var(--blue);color:#fff;border-radius:var(--r-xl);padding:22px 26px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cohort-prompt h2{font-size:20px;font-weight:700}
+.cohort-prompt p{opacity:.85;font-size:14px;margin-top:2px}
+.cohort-prompt .opts{display:flex;gap:8px;flex-wrap:wrap}
+.cohort-prompt button{all:unset;cursor:pointer;background:#fff;color:var(--blue-deep);font-weight:700;font-size:14px;padding:10px 16px;border-radius:999px}
+.cohort-prompt button:hover{background:var(--blue-soft)}
+.cohort-prompt button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+/* ---------- Views ---------- */
+.view{display:none}
+.view.active{display:block}
+.view-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:4px 4px 16px}
+.view-head h1{font-size:clamp(26px,3vw,34px);font-weight:800}
+.view-head p{color:var(--ink-2);max-width:62ch;margin-top:6px}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.card{background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);min-width:0}
+.card h2{font-size:19px;font-weight:700}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.link-btn{all:unset;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--blue-deep);padding:6px 12px;border-radius:999px;background:var(--blue-soft)}
+.link-btn:hover{background:#d4daff}
+.grid>.s12{grid-column:span 12}.grid>.s8{grid-column:span 8}.grid>.s7{grid-column:span 7}.grid>.s6{grid-column:span 6}.grid>.s5{grid-column:span 5}.grid>.s4{grid-column:span 4}.grid>.s3{grid-column:span 3}
+
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.pill.onsite{background:var(--peach);color:var(--peach-ink)}
+.pill.online{background:var(--lilac);color:var(--lilac-ink)}
+.pill.formative{background:var(--mint);color:var(--mint-ink)}
+.pill.summative{background:var(--butter);color:var(--butter-ink)}
+.pill.tbc{background:var(--paper);color:var(--ink-2)}
+
+/* ---------- Hero: the journey strip ---------- */
+.hero{background:var(--ink);color:#fff;border-radius:var(--r-xl);padding:30px 30px 26px;position:relative;overflow:hidden}
+.hero-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.hero h1{font-size:clamp(30px,4.2vw,50px);font-weight:800;max-width:15ch;line-height:1.02;letter-spacing:-.025em}
+.hero-intro{max-width:46ch;color:rgba(255,255,255,.78);font-size:15.5px}
+.hero-intro p+p{margin-top:8px}
+.strip{margin-top:30px;position:relative}
+.strip-blocks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:38px;font-size:13px;color:rgba(255,255,255,.7)}
+.strip-blocks div{border-top:2px solid rgba(255,255,255,.22);padding-top:8px}
+.strip-blocks b{color:#fff;font-weight:600}
+.track{display:grid;grid-template-columns:repeat(20,1fr);gap:4px;align-items:end;position:relative}
+.node{all:unset;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 0;border-radius:10px}
+.node .dot{width:100%;max-width:34px;height:12px;border-radius:999px;background:rgba(255,255,255,.18);transition:height .25s ease, background .25s ease}
+.node.past .dot{background:rgba(255,255,255,.55)}
+.node.onsite .dot{height:34px;background:var(--peach);border-radius:12px}
+.node.onsite.past .dot{background:#E8B49C}
+.node.current .dot{background:#fff;box-shadow:0 0 0 4px var(--blue)}
+.node.onsite.current .dot{background:var(--peach)}
+.node.selected .dot{outline:2px dashed #fff;outline-offset:3px}
+.node span{font-size:12px;color:rgba(255,255,255,.6);font-weight:600;font-variant-numeric:tabular-nums}
+.node.current span{color:#fff}
+.node:hover .dot{background:#fff}
+.node:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.strip-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:rgba(255,255,255,.7)}
+.strip-legend i{display:inline-block;width:14px;height:10px;border-radius:4px;margin-right:6px;vertical-align:middle}
+.you{position:absolute;top:-30px;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap;pointer-events:none;transition:left .35s cubic-bezier(.2,.8,.2,1)}
+.you::after{content:"";position:absolute;left:var(--ax,50%);bottom:-5px;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--blue);border-bottom:0}
+
+/* ---------- Week detail ---------- */
+.week-detail .wk-num{font-family:var(--display);font-weight:800;font-size:64px;line-height:.9;color:var(--blue);letter-spacing:-.04em}
+.wk-layout{display:flex;gap:20px;align-items:flex-start}
+.wk-body h3{font-size:22px;font-weight:700;margin:4px 0 8px}
+.wk-body p{color:var(--ink-2)}
+.wk-meta{display:flex;gap:8px;flex-wrap:wrap}
+.assess-box{margin-top:16px;background:var(--paper);border-radius:var(--r-md);padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.assess-box svg{flex:none;width:22px;height:22px;color:var(--blue);margin-top:1px}
+.assess-box small{display:block;color:var(--ink-3);font-size:12.5px;font-weight:600}
+.assess-box b{font-weight:600}
+.wk-nav{display:flex;gap:8px;margin-top:16px}
+.ghost-btn{all:unset;cursor:pointer;font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.ghost-btn:hover{border-color:var(--blue);color:var(--blue-deep)}
+.ghost-btn[disabled]{opacity:.4;pointer-events:none}
+
+/* ---------- Progress ring ---------- */
+.ring-wrap{display:flex;align-items:center;gap:22px}
+.ring{width:132px;height:132px;flex:none;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:12;stroke-linecap:round}
+.ring .bg{stroke:var(--blue-soft)}
+.ring .fg{stroke:var(--blue);transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)}
+.ring .fg.alt{stroke:var(--mint-ink)}
+.ring-label{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring-label b{font-family:var(--display);font-size:30px;font-weight:800;display:block;line-height:1}
+.ring-label span{font-size:12px;color:var(--ink-3)}
+.ring-stats{display:flex;flex-direction:column;gap:10px;font-size:14px}
+.ring-stats div{display:flex;flex-direction:column}
+.ring-stats b{font-size:16px}
+.ring-stats span{color:var(--ink-3);font-size:13px}
+
+/* ---------- Tiles ---------- */
+.tile{all:unset;box-sizing:border-box;cursor:pointer;border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;gap:8px;min-height:132px;position:relative}
+.tile:hover{filter:brightness(.97)}
+.tile:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.tile .t-ico{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.6);display:grid;place-items:center}
+.tile .t-ico svg{width:20px;height:20px}
+.tile small{font-size:13px;font-weight:600;opacity:.85}
+.tile b{font-family:var(--display);font-size:18px;font-weight:700;line-height:1.2}
+.tile.peach{background:var(--peach);color:var(--peach-ink)}
+.tile.lilac{background:var(--lilac);color:var(--lilac-ink)}
+.tile.mint{background:var(--mint);color:var(--mint-ink)}
+.tile.butter{background:var(--butter);color:var(--butter-ink)}
+
+/* ---------- Assessment tracker (gantt) ---------- */
+.gantt{display:grid;grid-template-columns:190px 1fr;row-gap:12px;column-gap:16px;align-items:center}
+.gantt .g-name b{display:block;font-size:14px;font-weight:600;line-height:1.3}
+.gantt .g-name span{font-size:12.5px;color:var(--ink-3)}
+.g-track{position:relative;height:34px;background:repeating-linear-gradient(90deg,var(--paper) 0 calc(5% - 2px),transparent calc(5% - 2px) 5%);border-radius:10px}
+.g-bar{position:absolute;top:0;bottom:0;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:12px;font-weight:700;overflow:hidden;white-space:nowrap}
+.g-bar.formative{background:var(--mint);color:var(--mint-ink)}
+.g-bar.summative{background:var(--butter);color:var(--butter-ink)}
+.g-axis{grid-column:2;display:grid;grid-template-columns:repeat(20,1fr);font-size:10.5px;color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums}
+.g-rows{display:contents}
+.g-now{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--blue);border-radius:2px;pointer-events:none}
+.g-now::before{content:"";position:absolute;top:-4px;left:-4px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
+.g-wrap{position:relative}
+
+/* ---------- Upcoming list ---------- */
+.dates{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.dates li{display:flex;gap:14px;align-items:center;padding:10px;border-radius:var(--r-md);background:var(--paper)}
+.date-chip{flex:none;width:54px;height:54px;border-radius:14px;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.date-chip small{font-size:10.5px;color:var(--ink-3);font-weight:600}
+.date-chip b{font-family:var(--display);font-size:21px;font-weight:800;color:var(--blue-deep)}
+.dates li div:last-child{min-width:0}
+.dates li b.t{display:block;font-size:14px;font-weight:600;line-height:1.3}
+.dates li span{font-size:12.5px;color:var(--ink-3)}
+.note{font-size:13px;color:var(--ink-3);margin-top:14px}
+
+/* ---------- Timeline view ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{all:unset;cursor:pointer;font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink-2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.block-head{margin:22px 4px 12px}
+.block-head h2{font-size:21px;font-weight:700}
+.block-head p{color:var(--ink-2);font-size:14px;margin-top:2px}
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.wcard{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;border:2px solid transparent}
+.wcard:hover{border-color:var(--blue-soft)}
+.wcard:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wcard.current{border-color:var(--blue)}
+.wcard.onsite-card{background:linear-gradient(var(--card),var(--card)) padding-box, var(--peach) border-box;border-color:transparent}
+.wcard.onsite-card.current{border-color:var(--blue);background:var(--card)}
+.wcard .wc-top{display:flex;justify-content:space-between;align-items:center}
+.wcard .wc-n{font-family:var(--display);font-weight:800;font-size:28px;color:var(--blue);line-height:1}
+.wcard h3{font-size:16.5px;font-weight:700}
+.wcard p{font-size:13.5px;color:var(--ink-2)}
+.wcard .wc-a{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:8px;margin-top:auto}
+.wcard .wc-a b{color:var(--ink-2);font-weight:600}
+.now-tag{font-size:11.5px;font-weight:700;background:var(--blue);color:#fff;padding:3px 8px;border-radius:999px}
+
+/* ---------- Checklist view ---------- */
+.ms{background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.ms-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.ms-head h3{font-size:17px;font-weight:700}
+.ms-count{font-size:13px;font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--paper);border-radius:999px;overflow:hidden;margin:6px 0 12px}
+.bar i{display:block;height:100%;background:var(--mint-ink);border-radius:999px;transition:width .4s ease}
+.ms.is-now{box-shadow:0 0 0 2px var(--blue), var(--shadow)}
+.check{display:flex;gap:12px;align-items:flex-start;padding:8px 6px;border-radius:10px;cursor:pointer;font-size:14px}
+.check:hover{background:var(--paper)}
+.check input{appearance:none;flex:none;width:20px;height:20px;border:2px solid #C3C9DB;border-radius:7px;margin:1px 0 0;display:grid;place-items:center;cursor:pointer;background:#fff}
+.check input:checked{background:var(--mint-ink);border-color:var(--mint-ink)}
+.check input:checked::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.check input:checked + span{color:var(--ink-3);text-decoration:line-through;text-decoration-color:rgba(125,134,163,.5)}
+.ms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.callout{background:var(--blue-soft);color:var(--blue-deep);border-radius:var(--r-lg);padding:16px 18px;font-size:14.5px;display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.callout svg{flex:none;width:22px;height:22px;margin-top:1px}
+.callout.warm{background:var(--butter);color:var(--butter-ink)}
+
+/* ---------- Find view ---------- */
+.find-search{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.find-search input{flex:1;min-width:240px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:11px 18px;font-size:14.5px}
+.find-search input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.cats{columns:3 300px;column-gap:16px}
+.cat{break-inside:avoid;background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.cat h3{font-size:17px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.cat h3 i{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-style:normal}
+.cat h3 i svg{width:17px;height:17px}
+.cat ul{list-style:none;margin:0;padding:0}
+.cat li{padding:9px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.cat li:first-of-type{border-top:0}
+.cat li b{font-weight:600;font-size:14px}
+.cat li a,.cat li span{font-size:13px}
+.cat li a{color:var(--blue-deep);font-weight:600;text-decoration:none}
+.cat li a:hover{text-decoration:underline}
+.cat li span{color:var(--ink-3)}
+.cat li .todo{color:var(--peach-ink);font-weight:600}
+mark{background:var(--butter);color:inherit;border-radius:3px;padding:0 1px}
+
+/* ---------- How do I view ---------- */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;align-items:start}
+details.how{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+details.how summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;gap:14px;align-items:center;min-height:118px}
+details.how summary>div{flex:1;min-width:0}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary:focus-visible{outline:3px solid var(--blue);outline-offset:-3px;border-radius:var(--r-lg)}
+.how-ico{flex:none;width:42px;height:42px;border-radius:14px;display:grid;place-items:center}
+.how-ico svg{width:21px;height:21px}
+details.how summary h3{font-size:16px;font-weight:700;line-height:1.25}
+details.how summary p{font-size:13px;color:var(--ink-3);margin-top:3px;line-height:1.4}
+.chev{margin-left:auto;flex:none;width:20px;height:20px;color:var(--ink-3);transition:transform .2s ease}
+details.how[open] .chev{transform:rotate(180deg)}
+.how-body{padding:0 20px 20px;font-size:14px;color:var(--ink-2);display:flex;flex-direction:column;gap:12px}
+.how-body h4{margin:0 0 4px;font-size:13px;color:var(--ink);font-weight:700}
+.how-body ul,.how-body ol{margin:0;padding-left:18px}
+.how-body li{margin:2px 0}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12.5px;background:var(--paper);border-radius:999px;padding:4px 10px;color:var(--ink-2);font-weight:500}
+.help-link{font-weight:600;font-size:13.5px}
+
+/* ---------- Who view ---------- */
+.router{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.answer{background:var(--card);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);display:flex;gap:16px;align-items:center;margin-bottom:22px;min-height:96px}
+.answer .av{width:56px;height:56px;font-size:19px}
+.answer b{font-family:var(--display);font-size:19px;display:block}
+.answer p{color:var(--ink-2);font-size:14px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.person{background:var(--card);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.person.hl{box-shadow:0 0 0 2px var(--blue), var(--shadow)}
+.av{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px;flex:none}
+.person h3{font-size:18px;font-weight:700}
+.person .role{font-size:13.5px;color:var(--ink-3);font-weight:600}
+.person ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-2)}
+.person .contact{margin-top:auto;display:flex;gap:8px}
+
+.foot{font-size:12.5px;color:var(--ink-3);text-align:center;padding:10px 0 4px}
+
+/* ---------- Motion: one orchestrated hero moment ---------- */
+@keyframes rise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.strip.animate .node .dot{transform-origin:bottom;animation:rise .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 28ms)}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1180px){
+  .grid>.s8,.grid>.s7,.grid>.s5,.grid>.s4{grid-column:span 12}
+  .grid>.s3{grid-column:span 6}
+}
+/* ---------- Official dates ---------- */
+.cohort-prompt button small{display:block;font-size:11.5px;font-weight:600;opacity:.7;margin-top:1px}
+.week-picker select#modeSel{margin-left:4px}
+/* Part 3: the whole programme as three parts */
+.prog{display:flex;gap:10px;align-items:stretch;margin-top:8px}
+.prog-empty{color:rgba(255,255,255,.75);font-size:14.5px}
+.seg{min-width:0;display:flex;flex-direction:column;gap:6px;color:rgba(255,255,255,.7);font-size:12.5px;position:relative}
+.seg b{color:#fff;font-size:14px;font-weight:700;line-height:1.25}
+.seg-bar{height:14px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin-bottom:6px}
+.seg-bar i{display:block;height:100%;background:rgba(255,255,255,.55);border-radius:999px}
+.seg.current .seg-bar{height:34px;border-radius:12px;box-shadow:0 0 0 3px var(--blue)}
+.seg.current .seg-bar i{background:var(--peach)}
+.seg em{font-style:normal;position:absolute;top:-28px;left:0;background:var(--blue);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+/* items in a week */
+.it-head{font-family:var(--body);font-size:13px;font-weight:700;color:var(--ink-3);margin:18px 0 8px}
+.its{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.it{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.it b{display:block;font-weight:600;line-height:1.3}
+.it span{display:block;font-size:12.5px;color:var(--ink-3)}
+.it .it-note{color:var(--ink-2);margin-top:2px}
+.it-dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:5px;background:var(--lilac-ink)}
+.it-day .it-dot,.it.k-onsite .it-dot{background:var(--peach-ink)}
+.it-due.k-formative .it-dot{background:var(--mint-ink)}
+.it-due.k-summative .it-dot{background:var(--butter-ink)}
+.it-event .it-dot{background:var(--blue)}
+.it-none{color:var(--ink-3);font-size:14px}
+.pause-note{background:var(--butter);color:var(--butter-ink);border-radius:var(--r-md);padding:10px 14px;font-size:14px;margin:-4px 0 14px}
+.tile .t-sub{font-size:13.5px;font-weight:600;line-height:1.3;opacity:.9}
+/* tracker */
+.g-axis.months{display:block;position:relative;height:16px}
+.g-axis.months span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.g-bar.done{opacity:.55}
+/* key dates */
+.date-tools{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.date-tools .note{align-self:center;margin-right:2px}
+.part-list{display:flex;flex-direction:column;gap:16px}
+.part-dates .card-head{align-items:flex-start}
+.part-dates .card-head .note{margin-top:2px}
+details.part-dates summary{list-style:none;cursor:pointer;margin-bottom:0}
+details.part-dates summary::-webkit-details-marker{display:none}
+details.part-dates[open] summary{margin-bottom:14px}
+details.part-dates[open] .pill.tbc{display:none}
+details.part-dates summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px;border-radius:12px}
+.dates li.past{opacity:.5}
+.dates li .d-note{display:block;color:var(--ink-2);margin-top:3px}
+.dates li.dk-due.dk-summative .date-chip b{color:var(--butter-ink)}
+.dates li.dk-due.dk-formative .date-chip b{color:var(--mint-ink)}
+.dates li.dk-day .date-chip b{color:var(--peach-ink)}
+.dates li.dk-break{background:transparent;border:1px dashed var(--line)}
+.next-pill{background:var(--blue);color:#fff;font-size:11.5px;padding:2px 8px;vertical-align:1px;margin-left:4px}
+.sessions{display:grid;grid-template-columns:200px minmax(0,1fr);gap:14px;align-items:start;background:var(--paper);border-radius:var(--r-md);padding:12px 14px;margin-bottom:10px}
+.sessions b{display:block;font-size:14px}
+.sessions span{font-size:12.5px;color:var(--ink-3)}
+.s-dates{display:flex;flex-wrap:wrap;gap:6px}
+.s-dates span{background:var(--card);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;color:var(--lilac-ink)}
+.s-dates span.past{opacity:.45;text-decoration:line-through}
+.s-dates span.next{background:var(--blue);color:#fff}
+/* week cards */
+.part-tabs{margin-top:12px}
+.wcard .wc-date{font-size:12.5px;font-weight:600;color:var(--ink-3);margin-top:-4px}
+.wcard .wc-items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.wcard .wc-items li{font-size:12.5px;font-weight:600;color:var(--ink);padding-left:12px;position:relative}
+.wcard .wc-items li::before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:var(--peach-ink)}
+.wcard .wc-items li.k-due::before{background:var(--butter-ink)}
+.wcard .wc-items li.k-event::before{background:var(--blue)}
+.wcard.is-past{opacity:.7}
+div.wcard{cursor:default}
+div.wcard:hover{border-color:transparent}
+.wbreak{border:2px dashed var(--line);border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;justify-content:center;gap:2px;color:var(--ink-3);font-size:13px}
+.wbreak b{color:var(--ink-2);font-size:15px}
+@media (max-width:900px){.prog{flex-direction:column;gap:18px}.seg em{position:static;align-self:flex-start;order:-1}.sessions{grid-template-columns:1fr}}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;padding:12px;gap:12px}
+  .side{position:static;height:auto;flex-direction:row;align-items:center;padding:10px;border-radius:var(--r-lg);overflow-x:auto}
+  .brand{padding:0 8px 0 4px}
+  .brand small,.side-foot{display:none}
+  .nav{flex-direction:row}
+  .nav button{white-space:nowrap;padding:9px 12px}
+  .nav button span{display:none}
+  .nav button[aria-current="page"] span{display:inline}
+  .gantt{grid-template-columns:1fr}
+  .g-axis{grid-column:1}
+}
+@media (max-width:600px){
+  .grid>.s3{grid-column:span 12}
+  .hero{padding:22px 18px}
+  .track{gap:2px}
+  .node span{font-size:10px}
+  .node:nth-child(even) span{visibility:hidden}
+  .wk-layout{flex-direction:column;gap:6px}
+  .week-detail .wk-num{font-size:48px}
+  .ring-wrap{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="side" aria-label="Student Journey sections">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 18c3-8 6-12 9-12s4 3 2 6-6 3-6 0 5-6 11-5" fill="none" stroke="#3651F5" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </div>
+      <div><b>My Journey</b><small id="brandSub">Master of Technological Futures</small></div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      <p>Can't find what you need? Ask the cohort and the Futures PlayLab team.</p>
+      <a id="slackLink" href="#" target="_top">Open Slack</a>
+    </div>
+  </aside>
+
+  <!-- ===== Main ===== -->
+  <main class="main">
+    <div class="topbar">
+      <div class="search" role="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search weeks, resources, how-tos and people" aria-label="Search the Student Journey" autocomplete="off" aria-controls="results">
+        <div class="results" id="results" role="listbox" aria-label="Search results"></div>
+      </div>
+      <div class="week-picker">
+        <label for="cohortSel">Gen</label>
+        <select id="cohortSel" aria-label="Your Gen"></select>
+      </div>
+      <div class="week-picker" id="weekBox" aria-live="polite"></div>
+    </div>
+
+    <!-- Dashboard -->
+    <section class="view" id="view-home" aria-labelledby="h-home">
+      <div class="grid">
+        <div class="s12" id="cohortPrompt" hidden></div>
+        <div class="hero s12">
+          <div class="hero-top">
+            <h1 id="h-home">Find your way through the MTF.</h1>
+            <div class="hero-intro">
+              <p>Not sure where you are, what comes next or where to find something? Start here for a quick answer about your progress, upcoming milestones, resources or who can help.</p>
+            </div>
+          </div>
+          <div class="strip" id="strip">
+            <div class="strip-blocks" id="stripBlocks"></div>
+            <div class="track" id="track" role="group" aria-label="Your weeks. Select a week to see its details."></div>
+            <div class="strip-legend" id="stripLegend">
+              <span><i style="background:var(--peach)"></i>Onsite</span>
+              <span><i style="background:rgba(255,255,255,.35)"></i>Online</span>
+              <span><i style="background:#fff;box-shadow:0 0 0 2px var(--blue)"></i>Your week</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card s7 week-detail" id="weekDetail" aria-live="polite"></div>
+
+        <div class="card s5">
+          <div class="card-head"><h2>Am I on track?</h2><button class="link-btn" data-go="checklist">Open checklist</button></div>
+          <div class="ring-wrap">
+            <div class="ring" aria-hidden="true">
+              <svg viewBox="0 0 140 140"><circle class="bg" cx="70" cy="70" r="58"/><circle class="fg" id="ringPart" cx="70" cy="70" r="58"/></svg>
+              <div class="ring-label"><div><b id="ringPct">0%</b><span id="ringOf">of Part 1</span></div></div>
+            </div>
+            <div class="ring-stats" id="ringStats"></div>
+          </div>
+        </div>
+
+        <button class="tile peach s3" data-go="timeline" id="tileOnsite"></button>
+        <button class="tile butter s3" data-go="timeline" id="tileAssess"></button>
+        <button class="tile lilac s3" data-go="dates" id="tileDate"></button>
+        <button class="tile mint s3" data-go="who" id="tileWho"></button>
+
+        <div class="card s8">
+          <div class="card-head"><h2>Assessment tracker</h2><span class="pill tbc" id="ganttWeek"></span></div>
+          <div class="g-wrap"><div class="gantt" id="gantt"></div></div>
+          <p class="note">For formal assessment deadlines, always check the assessment information in the LMS.</p>
+        </div>
+
+        <div class="card s4">
+          <div class="card-head"><h2>Coming up</h2><button class="link-btn" data-go="dates">All dates</button></div>
+          <ul class="dates" id="upcoming"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Where am I now? -->
+    <section class="view" id="view-timeline" aria-labelledby="h-tl">
+      <div class="view-head">
+        <div>
+          <h1 id="h-tl">Where am I now?</h1>
+          <p id="tlIntro">Your weeks, with the real dates for your Gen.</p>
+          <div class="filters part-tabs" id="partTabs" role="group" aria-label="Choose a part"></div>
+        </div>
+        <div class="filters" id="filterBox" role="group" aria-label="Filter weeks">
+          <button class="chip" data-filter="all" aria-pressed="true">All weeks</button>
+          <button class="chip" data-filter="onsite" aria-pressed="false">Onsite</button>
+          <button class="chip" data-filter="online" aria-pressed="false">Online</button>
+        </div>
+      </div>
+      <div id="timeline"></div>
+    </section>
+
+    <!-- What should I have done by now? -->
+    <section class="view" id="view-checklist" aria-labelledby="h-ck">
+      <div class="view-head">
+        <div>
+          <h1 id="h-ck">What should I have done by now?</h1>
+          <p>What learners usually have completed or started by each stage of Part 1. Tick things off as you go. Your ticks are saved in this browser only.</p>
+        </div>
+        <button class="ghost-btn" id="resetChecks">Clear my ticks</button>
+      </div>
+      <div class="callout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11Z"/></svg>
+        <p>Everyone's pace is a little different. If you're behind, or unsure about anything, talk to your advisor or the Futures PlayLab team early. We're here to help.</p>
+      </div>
+      <div class="callout warm" id="checkNote" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><p></p></div>
+      <div class="ms-grid" id="checklist"></div>
+    </section>
+
+    <!-- When is the next important date? -->
+    <section class="view" id="view-dates" aria-labelledby="h-dt">
+      <div class="view-head">
+        <div>
+          <h1 id="h-dt">When is the next important date?</h1>
+          <p>Every onsite day, weekly session, assessment and break for your Gen, from the official programme dates.</p>
+        </div>
+      </div>
+      <div class="callout warm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+        <p>These dates come from your MTF student handbook. If anything here is different from the handbook or the LMS, go with the handbook and the LMS, and let the Futures PlayLab team know.</p>
+      </div>
+      <div class="date-tools"><div class="filters" id="dateFilters" role="group" aria-label="Filter dates"></div><div class="filters" id="modeFilters" role="group" aria-label="Part 3 study mode" hidden></div></div>
+      <div id="allDates" class="part-list"></div>
+    </section>
+
+    <!-- Where can I find... -->
+    <section class="view" id="view-find" aria-labelledby="h-fd">
+      <div class="view-head">
+        <div>
+          <h1 id="h-fd">Where can I find…</h1>
+          <p>Everything you might go looking for, and where it lives.</p>
+        </div>
+      </div>
+      <div class="find-search">
+        <input id="findQ" type="search" placeholder="Filter, for example portfolio, AI, venue" aria-label="Filter resources">
+      </div>
+      <div class="cats" id="cats"></div>
+      <p class="note">Can't find what you need? Check the FAQs or ask in the Futures PlayLab Slack channel.</p>
+    </section>
+
+    <!-- How do I... -->
+    <section class="view" id="view-how" aria-labelledby="h-hw">
+      <div class="view-head">
+        <div>
+          <h1 id="h-hw">How do I…</h1>
+          <p>Start here when you're trying to do something but aren't sure which tool, method or resource to use. There isn't always one correct tool for every task.</p>
+        </div>
+      </div>
+      <div class="how-grid" id="how"></div>
+    </section>
+
+    <!-- Who do I ask about... -->
+    <section class="view" id="view-who" aria-labelledby="h-wh">
+      <div class="view-head">
+        <div>
+          <h1 id="h-wh">Who do I ask about…</h1>
+          <p>Find the right person for academic questions, Futures PlayLab support, technical issues, programme administration and learner support.</p>
+        </div>
+      </div>
+      <div class="router" role="group" aria-label="Choose what your question is about" id="router"></div>
+      <div class="answer" id="answer" aria-live="polite"></div>
+      <div class="people" id="people"></div>
+    </section>
+
+    <p class="foot">Futures PlayLab · Master of Technological Futures · academyEX</p>
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   DATA: edit this section to update the page.
+   ============================================================ */
+
+const CONFIG = {
+  // Links. Replace "#" with your Google Sites page URLs or external links.
+  // Google Sites links open in the top window (not inside the embed).
+  links: {
+    lms: "#",
+    slack: "#",
+    faq: "#",
+    calendar: "#",
+    events: "#",
+    news: "#",
+    aboutMTF: "#",
+    aboutAcademyEX: "#",
+    contacts: "#",
+    guides: "#",
+    resourcesLinks: "#",
+    tools: "#",
+    playTools: "#",
+    playExperiment: "#",
+    policies: "#",
+    portfolios: "#",
+    gallery: "#",
+    xrGallery: "#",
+    profiles: "#",
+    connect: "#",
+    externalResources: "#",
+    privacy: "https://academyex.com/privacy-policy",
+    wellbeing: null,   // add link
+    library: null,     // add link
+    itHelp: null,      // add link
+    reflection: null,  // add link
+    venue: null,       // add link
+    whatToBring: null  // add link
+  }
+};
+
+/* GENS (cohorts) and their official key dates
+   ------------------------------------------------------------
+   These come from each Gen's MTF student handbook. If anything here is
+   different from the handbook, the handbook is right: fix it here.
+
+   Students choose their Gen once (it's remembered in their browser) and the
+   page works out where they are from today's date. You can also link
+   straight to a Gen: .../index.html?gen=gen31
+
+   Each Gen has:
+     id, name:  e.g. "gen31", "Gen31"
+     intake:    shown next to the name in the Gen menu
+     breaks:    [name, first day, last day]
+     parts:     Part 1, 2 and 3, each with:
+       start, end:  first and last day ("YYYY-MM-DD"). Part 3 has endFT
+                    (20 weeks, full time) and endPT (40 weeks, part time).
+       sessions:    regular sessions: when (shown to students), time, kind
+                    ("online" or "onsite"), and the list of dates
+       days:        onsite days, full online days and Part 3 workshops:
+                      d     the date
+                      t     what it is
+                      time  e.g. "9am–4pm"
+                      wk    the week the handbook gives it (helps the page
+                            count weeks across holidays; optional)
+                      kind  "onsite" (default), "online" or "workshop"
+                      note  shown under it (optional)
+                      mode  Part 3 only: "ft" or "pt" if it's only for one
+       due:         assessments: d, t, time, kind ("formative" or
+                    "summative"), note, mode (Part 3)
+       events:      presentations and pitches: d, t, end (last day of a
+                    range), note, mode (Part 3)
+       note:        a message shown with this part (optional)
+   Put the newest Gen first. Remove a Gen once it has finished. */
+const GENS = [
+  {id:"gen31", name:"Gen31", intake:"September 2026",
+   breaks:[["Study break","2027-03-04","2027-03-17"],["Study break","2027-06-10","2027-06-23"]],
+   parts:[
+    {n:1, start:"2026-09-24", end:"2027-03-04",
+     sessions:[{when:"Thursdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2026-10-01","2026-10-08","2026-10-15","2026-10-22","2026-10-29","2026-11-12","2026-11-19","2026-11-26","2026-12-03","2026-12-10","2026-12-17","2027-01-14","2027-01-28","2027-02-04","2027-02-11","2027-02-18"]}],
+     days:[
+      {d:"2026-09-24", t:"Onsite day 1", time:"9am–5pm", wk:1},
+      {d:"2026-09-25", t:"Onsite day 2", time:"9am–5pm", wk:1},
+      {d:"2026-11-06", t:"Onsite day", time:"9am–4pm", wk:7},
+      {d:"2027-01-22", t:"Onsite day", time:"9am–4pm", wk:15},
+      {d:"2027-02-26", t:"Onsite day", time:"9am–4pm", wk:20}],
+     due:[
+      {d:"2026-10-19", t:"Formative Assessment 1: EDT ‘Explainer’", kind:"formative"},
+      {d:"2026-11-30", t:"Summative Assessment 1: Sector or System ‘Disruption Report’", kind:"summative"},
+      {d:"2027-01-25", t:"Formative Assessment 2: Applied Ethics – group case study", kind:"formative"},
+      {d:"2027-03-01", t:"Summative Assessment 2: Emerging Project Idea", kind:"summative"}],
+     events:[
+      {d:"2027-01-22", t:"Applied Ethics group case study presentations"},
+      {d:"2027-02-26", t:"Emerging Project Idea pitch"}]},
+    {n:2, start:"2027-03-18", end:"2027-06-09",
+     sessions:[{when:"Tuesdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2027-03-23","2027-03-30","2027-04-06","2027-04-20","2027-04-27","2027-05-04","2027-05-11","2027-05-18","2027-05-25"]}],
+     days:[
+      {d:"2027-03-19", t:"Onsite day", time:"9am–4pm", wk:1},
+      {d:"2027-04-16", t:"Onsite day", time:"9am–4pm", wk:7},
+      {d:"2027-06-04", t:"Full day online", time:"9am–4pm", wk:12, kind:"online"}],
+     due:[
+      {d:"2027-04-12", t:"Formative Assessment 3: Draft Project Proposal", kind:"formative"},
+      {d:"2027-05-31", t:"Summative Assessment 3: Practice-Based Research Proposal, Ethics & Learning Agreement", kind:"summative"}],
+     events:[{d:"2027-06-04", t:"Research proposal presentations (online)"}]},
+    {n:3, start:"2027-06-24", endFT:"2027-11-10", endPT:"2028-04-19",
+     days:[
+      {d:"2027-07-02", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop"},
+      {d:"2027-08-20", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop"},
+      {d:"2027-10-01", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop"},
+      {d:"2027-11-19", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop", mode:"pt"},
+      {d:"2028-01-21", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop", mode:"pt"},
+      {d:"2028-03-03", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop", mode:"pt"}],
+     due:[
+      {d:"2027-08-30", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"ft"},
+      {d:"2027-10-26", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"ft"},
+      {d:"2027-11-08", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"pt"},
+      {d:"2028-04-03", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"pt"}],
+     events:[
+      {d:"2027-11-03", end:"2027-11-08", t:"Project presentations", mode:"ft"},
+      {d:"2028-04-10", end:"2028-04-13", t:"Project presentations", mode:"pt"}]}
+   ]},
+
+  {id:"gen30", name:"Gen30", intake:"June 2026",
+   breaks:[["Study break","2026-11-17","2026-11-30"],["Study break","2027-03-16","2027-03-29"]],
+   parts:[
+    {n:1, start:"2026-06-30", end:"2026-11-16",
+     note:"Onsite content sessions are compulsory, and attendance is recorded for visa purposes.",
+     sessions:[{when:"Tuesdays and Wednesdays, 8:30–11am (content 9–11am)", time:"8:30–11am", kind:"onsite", label:"Onsite content session", dates:["2026-07-07","2026-07-08","2026-07-14","2026-07-15","2026-07-21","2026-07-22","2026-07-28","2026-07-29","2026-08-04","2026-08-05","2026-08-11","2026-08-12","2026-08-18","2026-08-19","2026-08-25","2026-08-26","2026-09-01","2026-09-02","2026-09-08","2026-09-09","2026-09-15","2026-09-16","2026-09-22","2026-09-23","2026-09-29","2026-09-30","2026-10-06","2026-10-07","2026-10-13","2026-10-14","2026-10-20","2026-10-21","2026-10-27","2026-10-28","2026-11-03","2026-11-04","2026-11-10","2026-11-11"]}],
+     days:[
+      {d:"2026-06-30", t:"Onsite day 1", time:"9am–5pm", wk:1},
+      {d:"2026-07-01", t:"Onsite day 2", time:"9am–5pm", wk:1}],
+     due:[
+      {d:"2026-07-27", t:"Formative Assessment 1: EDT ‘Explainer’", kind:"formative"},
+      {d:"2026-09-07", t:"Summative Assessment 1: Sector or System ‘Disruption Report’", kind:"summative"},
+      {d:"2026-10-05", t:"Formative Assessment 2: Applied Ethics – group case study", kind:"formative"},
+      {d:"2026-11-16", t:"Summative Assessment 2: Emerging Project Idea", kind:"summative"}],
+     events:[
+      {d:"2026-09-30", t:"Applied Ethics group case study presentations"},
+      {d:"2026-11-11", t:"Emerging Project Idea pitch"}]},
+    {n:2, start:"2026-12-01", end:"2027-03-15",
+     note:"Part 2 has no Tuesday and Wednesday morning onsite sessions. Instead there are Tuesday online sessions and three onsite workshops. All of them are compulsory, and attendance is recorded for visa purposes.",
+     sessions:[{when:"Tuesdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2026-12-08","2026-12-15","2027-01-12","2027-01-19","2027-02-02","2027-02-09","2027-02-16","2027-02-23","2027-03-02"]}],
+     days:[
+      {d:"2026-12-01", t:"Onsite workshop", time:"9am–4pm", wk:1},
+      {d:"2027-01-26", t:"Onsite workshop", time:"9am–4pm", wk:6},
+      {d:"2027-03-09", t:"Onsite workshop", time:"9am–4pm", wk:12}],
+     due:[
+      {d:"2027-02-01", t:"Formative Assessment 3: Draft Project Proposal", kind:"formative"},
+      {d:"2027-03-03", t:"Summative Assessment 3: Practice-Based Research Proposal, Ethics & Learning Agreement", kind:"summative"}],
+     events:[{d:"2027-03-09", end:"2027-03-10", t:"Research proposal presentations"}]},
+    {n:3, start:"2027-03-30", endFT:"2027-08-16", endPT:"2028-01-24",
+     days:[
+      {d:"2027-04-09", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-05-21", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-07-22", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-08-27", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop", mode:"pt"},
+      {d:"2027-10-08", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop", mode:"pt"},
+      {d:"2027-11-19", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop", mode:"pt"}],
+     due:[
+      {d:"2027-06-08", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"ft"},
+      {d:"2027-08-09", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"ft"},
+      {d:"2027-08-16", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"pt"},
+      {d:"2028-01-11", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"pt"}],
+     events:[
+      {d:"2027-08-13", t:"Project presentations", note:"13 and 16 August", mode:"ft"},
+      {d:"2028-01-18", t:"Project presentations", note:"18 and 21 January", mode:"pt"}]}
+   ]},
+
+  {id:"gen29", name:"Gen29", intake:"March 2026",
+   breaks:[["Study break","2026-07-30","2026-08-12"],["Study break","2026-11-05","2026-11-18"]],
+   parts:[
+    {n:1, start:"2026-03-12", end:"2026-07-29",
+     sessions:[{when:"Thursdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2026-03-19","2026-03-26","2026-04-02","2026-04-09","2026-04-23","2026-04-30","2026-05-07","2026-05-14","2026-05-21","2026-05-28","2026-06-04","2026-06-11","2026-06-25","2026-07-02","2026-07-09","2026-07-16"]}],
+     days:[
+      {d:"2026-03-12", t:"Onsite day 1", time:"9am–4:30pm", wk:1},
+      {d:"2026-03-13", t:"Onsite day 2", time:"9am–4:30pm", wk:1},
+      {d:"2026-04-17", t:"Onsite day", time:"9am–4:30pm", wk:6},
+      {d:"2026-06-19", t:"Onsite day", time:"9am–4:30pm", wk:15}],
+     due:[
+      {d:"2026-03-30", time:"12pm", t:"Formative Assessment 1: EDT ‘Explainer’", kind:"formative"},
+      {d:"2026-05-18", time:"12pm", t:"Summative Assessment 1: Sector or System ‘Disruption Report’", kind:"summative"},
+      {d:"2026-06-22", time:"12pm", t:"Formative Assessment 2: Applied Ethics – group case study", kind:"formative"},
+      {d:"2026-07-27", time:"12pm", t:"Summative Assessment 2: Emerging Project Idea", kind:"summative"}],
+     events:[
+      {d:"2026-06-19", t:"Applied Ethics group case study presentations"},
+      {d:"2026-07-24", t:"Emerging Project Idea pitch"}]},
+    {n:2, start:"2026-08-13", end:"2026-11-04",
+     sessions:[{when:"Tuesdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2026-08-18","2026-08-25","2026-09-01","2026-09-15","2026-09-22","2026-09-29","2026-10-06","2026-10-13","2026-10-20"]}],
+     days:[
+      {d:"2026-08-14", t:"Onsite day", time:"9am–4:30pm", wk:1},
+      {d:"2026-09-11", t:"Onsite day", time:"9am–4:30pm", wk:6},
+      {d:"2026-10-30", t:"Onsite day", time:"9am–4:30pm", wk:12}],
+     due:[
+      {d:"2026-09-07", time:"12pm", t:"Formative Assessment 3: Draft Project Proposal", kind:"formative", note:"The handbook gives two dates for this, 7 and 21 September. Check the LMS for the one that applies to you."},
+      {d:"2026-09-21", time:"12pm", t:"Formative Assessment 3: Draft Project Proposal", kind:"formative", note:"The handbook gives two dates for this, 7 and 21 September. Check the LMS for the one that applies to you."},
+      {d:"2026-10-23", time:"12pm", t:"Summative Assessment 3: Practice-Based Research Proposal, Ethics & Learning Agreement", kind:"summative"}],
+     events:[{d:"2026-10-30", t:"Research proposal presentations"}]},
+    {n:3, start:"2026-11-19",
+     days:[
+      {d:"2026-11-26", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-01-28", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-02-25", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-04-08", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop"},
+      {d:"2027-06-10", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop", mode:"pt"},
+      {d:"2027-07-22", t:"Part 3 workshop", time:"9am–4:30pm", kind:"workshop", mode:"pt"}],
+     due:[
+      {d:"2027-02-15", time:"12pm", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"ft"},
+      {d:"2027-04-20", time:"12pm", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"ft"},
+      {d:"2027-04-27", time:"12pm", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"pt"},
+      {d:"2027-09-01", time:"12pm", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"pt"}],
+     events:[
+      {d:"2027-04-27", end:"2027-04-28", t:"Project presentations", mode:"ft"},
+      {d:"2027-09-09", end:"2027-09-15", t:"Project presentations", mode:"pt"}]}
+   ]},
+
+  {id:"gen28", name:"Gen28", intake:"October 2025",
+   breaks:[["Christmas break","2025-12-18","2026-01-07"],["Study break","2026-04-09","2026-04-22"],["Study break","2026-07-16","2026-07-29"],["Christmas break","2026-12-24","2027-01-13"]],
+   parts:[
+    {n:1, start:"2025-10-30", end:"2026-04-08",
+     sessions:[{when:"Thursdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2025-11-06","2025-11-13","2025-11-20","2025-11-27","2025-12-04","2025-12-18","2026-01-15","2026-01-22","2026-01-29","2026-02-05","2026-02-12","2026-02-19","2026-03-05","2026-03-12","2026-03-19","2026-03-26"]}],
+     days:[
+      {d:"2025-10-30", t:"Onsite day 1", time:"9am–5pm", wk:1},
+      {d:"2025-10-31", t:"Onsite day 2", time:"9am–5pm", wk:1},
+      {d:"2025-12-12", t:"Onsite day", time:"9am–4pm", wk:7},
+      {d:"2026-02-27", t:"Onsite day", time:"9am–4pm", wk:15},
+      {d:"2026-04-02", t:"Onsite day", time:"9am–4pm", wk:20, note:"On a Thursday because Friday is a public holiday."}],
+     due:[
+      {d:"2025-12-01", t:"Formative Assessment 1: EDT ‘Explainer’", kind:"formative"},
+      {d:"2026-01-27", t:"Summative Assessment 1: Sector or System ‘Disruption Report’", kind:"summative"},
+      {d:"2026-03-02", t:"Formative Assessment 2: Applied Ethics – group case study", kind:"formative"},
+      {d:"2026-03-30", t:"Summative Assessment 2: Emerging Project Idea", kind:"summative"}],
+     events:[
+      {d:"2026-02-27", t:"Applied Ethics group case study presentations"},
+      {d:"2026-04-02", t:"Emerging Project Idea pitch"}]},
+    {n:2, start:"2026-04-23", end:"2026-07-15",
+     sessions:[{when:"Tuesdays, 3:30–5:30pm", time:"3:30–5:30pm", kind:"online", dates:["2026-04-28","2026-05-05","2026-05-12","2026-05-19","2026-05-26","2026-06-09","2026-06-16","2026-06-23","2026-06-30"]}],
+     days:[
+      {d:"2026-04-24", t:"Onsite day", time:"9am–4pm", wk:1},
+      {d:"2026-06-05", t:"Onsite day", time:"9am–4pm", wk:7},
+      {d:"2026-07-09", t:"Full day online", time:"9am–4pm", wk:12, kind:"online", note:"On a Thursday because Friday is a public holiday."}],
+     due:[
+      {d:"2026-06-08", t:"Formative Assessment 3: Draft Project Proposal", kind:"formative"},
+      {d:"2026-07-01", t:"Summative Assessment 3: Practice-Based Research Proposal, Ethics & Learning Agreement", kind:"summative"}],
+     events:[{d:"2026-07-09", t:"Research proposal presentations (online)"}]},
+    {n:3, start:"2026-07-30", endFT:"2026-12-16", endPT:"2027-05-26",
+     days:[
+      {d:"2026-08-28", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop"},
+      {d:"2026-10-16", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop"},
+      {d:"2026-12-11", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop"},
+      {d:"2027-02-12", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop", mode:"pt"},
+      {d:"2027-04-09", t:"Part 3 workshop", time:"9am–4pm", kind:"workshop", mode:"pt"}],
+     due:[
+      {d:"2026-10-19", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"ft"},
+      {d:"2026-12-02", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"ft"},
+      {d:"2026-12-14", t:"Formative Assessment 4: Project Update", kind:"formative", mode:"pt"},
+      {d:"2027-05-17", t:"Summative Assessment 4: Work-based Research Project", kind:"summative", mode:"pt"}],
+     events:[
+      {d:"2026-12-11", t:"Project presentations", mode:"ft"},
+      {d:"2027-05-24", end:"2027-05-28", t:"Project presentations", mode:"pt"}]}
+   ]}
+];
+
+// Names and questions for each part (from the MTF programme plan)
+const PARTS_INFO = {
+  1:{name:"Explore and Reframe", weeks:20, q:"What is changing, what might it mean, and how should I reframe my context?"},
+  2:{name:"Investigate and Design", weeks:12, q:"What must I understand, and how will I investigate and design responsibly?"},
+  3:{name:"Enact and Transform", q:"What changed through the project, and what original contribution does it make?",
+     about:"Your work-based research project. There are no weekly sessions in Part 3: you work on your project with your supervisor and come together for workshops."}
+};
+
+const WEEKS = [
+  {n:1, t:"Entering Technological Futures", mode:"onsite", len:"Two days onsite", d:"Programme kaupapa, getting to know your cohort, your context, creativity, the five pillars and Contextual Adaptation. Includes a context and futures studio and an introductory design sprint.", a:"Emerging Technology Explainer introduced"},
+  {n:2, t:"Understanding Emerging Technologies", mode:"online", d:"Trends, trajectories and critical technological literacy.", a:"Emerging Technology Explainer – exploration"},
+  {n:3, t:"Technological Frontiers and Possibilities", mode:"online", d:"Capabilities, affordances, limits and dependencies.", a:"Emerging Technology Explainer – development"},
+  {n:4, t:"Making Emerging Technology Understandable", mode:"online", d:"Bringing evidence together, writing for a target audience, and explaining through digital media.", a:"Emerging Technology Explainer – completion"},
+  {n:5, t:"Connecting Technologies", mode:"online", d:"Synergies, infrastructures, dependencies and ecosystems.", a:"Emerging Technology Explainer due; Disruption Report introduced"},
+  {n:6, t:"Systems, Complexity and Futures Studio", mode:"onsite", len:"Full day onsite", d:"Systems mapping, convergence, drivers, scenarios and critical making. Includes a Systems and Futures Sprint where you create a future artefact.", a:"Disruption Report – framing"},
+  {n:7, t:"Technology in Complex Systems", mode:"online", d:"Feedback, emergence, autopoiesis and unintended consequences.", a:"Disruption Report – development"},
+  {n:8, t:"Foresight and Alternative Futures", mode:"online", d:"Signals, drivers, scenarios and preferable futures.", a:"Disruption Report – development"},
+  {n:9, t:"Evaluating Technological Disruption", mode:"online", d:"Professional, social, community and ecological consequences.", a:"Disruption Report – synthesis"},
+  {n:10,t:"From Disruption to Strategic Direction", mode:"online", d:"Strategic interpretation and audience-focused recommendations.", a:"Disruption Report due"},
+  {n:11,t:"People, Experience and Technology", mode:"online", d:"Third-wave HCI, enaction, 4E+ cognition and entangled experience.", a:"Ethical Case Study and Reflection introduced"},
+  {n:12,t:"Ethics, Power and Responsible Technology", mode:"online", d:"Values, agency, equity, inclusion and algorithmic justice.", a:"Ethical Case Study – preparation"},
+  {n:13,t:"Indigenous and Plural Technological Futures", mode:"online", d:"Kaupapa Māori, Te Tiriti, data sovereignty and authority.", a:"Ethical Case Study – preparation"},
+  {n:14,t:"Technology, People and Planet", mode:"online", d:"Ecological responsibility, stakeholder tension and ethical synthesis.", a:"Ethical Case Study – preparation"},
+  {n:15,t:"Ethics, Culture and Responsibility Forum", mode:"onsite", len:"Full day onsite", d:"Group presentations, dialogue, ethical reframing and critical making. Includes a studio where you redesign, govern, limit or refuse a technology.", a:"Ethical Case Study – presentation"},
+  {n:16,t:"From Ethical Case to Personal Context", mode:"online", d:"Individual reflection, reflexivity and Contextual Adaptation.", a:"Ethical Case Study complete; Emerging Project Idea introduced"},
+  {n:17,t:"Reading the Context", mode:"online", d:"Stakeholders, place, history, regulation, capability and positionality.", a:"Emerging Project Idea – development"},
+  {n:18,t:"Reframing Challenges and Designing Possibilities", mode:"online", d:"Systemic design, alternative frames, ideation and low-fidelity concepts.", a:"Emerging Project Idea – development"},
+  {n:19,t:"Shaping an Emerging Project Idea", mode:"online", d:"Evidence, gaps, aims, questions, scope and peer critique.", a:"Emerging Project Idea – refinement"},
+  {n:20,t:"Emerging Project Ideas Forum", mode:"onsite", len:"Onsite", d:"Present your project idea, receive peer feedback, revise and submit. No new content this week.", a:"Emerging Project Idea due"}
+];
+
+const BLOCKS = [
+  {name:"Block 1: Exploring Technological Futures", weeks:[1,10], q:"What is changing, how is it connected, and what might it mean in different contexts?"},
+  {name:"Block 2: Shaping Responsible Futures in Context", weeks:[11,20], q:"What future is desirable, for whom, and how might it be responsibly investigated in context?"}
+];
+
+const CHECKLIST = [
+  {id:"w1", by:1, items:[
+    "Attended both onsite orientation days and met your cohort.",
+    "Have a basic understanding of the five pillars and Contextual Adaptation.",
+    "Thought about the context you're bringing into the programme: your organisation, profession or community.",
+    "Know about the Emerging Technology Explainer assessment."]},
+  {id:"w5", by:5, items:[
+    "Explored a range of emerging technologies and how they connect.",
+    "Chosen an emerging technology to focus on for your explainer.",
+    "Submitted your Emerging Technology Explainer (formative).",
+    "Read the Disruption Report brief."]},
+  {id:"w10", by:10, items:[
+    "Attended the Systems, Complexity and Futures Studio onsite day.",
+    "Mapped a system and explored how technologies could disrupt it.",
+    "Explored foresight tools such as signals, drivers and scenarios.",
+    "Submitted your Disruption Report (summative, 30 credits)."]},
+  {id:"w16", by:16, items:[
+    "Explored people, ethics, power, kaupapa Māori and ecological responsibility in relation to technology.",
+    "Prepared and presented your Ethical Case Study at the Week 15 onsite forum.",
+    "Completed your Ethical Case Study and Reflection (formative).",
+    "Started reflecting on how your own position and assumptions shape your thinking.",
+    "Read the Emerging Project Idea brief."]},
+  {id:"w19", by:19, items:[
+    "Explored your own context in depth: stakeholders, place, history, regulation and capability.",
+    "Generated and reframed possible project directions.",
+    "Drafted your emerging project idea, including aims, questions and scope.",
+    "Shared your idea with peers for feedback."]},
+  {id:"w20", by:20, items:[
+    "Presented your project idea at the Emerging Project Ideas Forum.",
+    "Revised your idea based on feedback.",
+    "Submitted your Emerging Project Idea (summative, 30 credits).",
+    "Completed Part 1 and are ready to move into Part 2: Investigate and Design."]},
+  {id:"always", by:null, label:"Throughout Part 1", items:[
+    "Adding work, reflections and feedback to your MTF Digital Portfolio.",
+    "Joining your context group for peer feedback and discussion.",
+    "Trying out creative and digital tools. The Futures PlayLab Guides and Tools sections can help."]}
+];
+
+const L = CONFIG.links;
+const FIND = [
+  {cat:"Programme and assessment", ico:"doc", tone:"butter", items:[
+    ["Assessment briefs and due dates","LMS, under each course",L.lms],
+    ["Assessment submission","LMS",L.lms],
+    ["Week-by-week schedule for Part 1","Student Journey: Where am I now?","#timeline"],
+    ["Milestone checklist","Student Journey: What should I have done by now?","#checklist"],
+    ["Upcoming key dates","Student Journey: When is the next important date?","#dates"],
+    ["Session recordings and weekly content","LMS",L.lms],
+    ["Course outlines and learning outcomes","LMS",L.lms],
+    ["About the MTF programme and its five pillars","About: MTF Programme",L.aboutMTF]]},
+  {cat:"Onsite days", ico:"pin", tone:"peach", items:[
+    ["Onsite days and times for your Gen","My Journey: Key dates","#dates"],
+    ["Venue and travel information","To be added",L.venue],
+    ["What to bring to onsite studios","To be added",L.whatToBring]]},
+  {cat:"Learning resources", ico:"book", tone:"lilac", items:[
+    ["Step-by-step guides and walkthroughs","Resources: Guides",L.guides],
+    ["Video tutorials, software links, podcasts and videos","Resources: Resources & Links",L.resourcesLinks],
+    ["Recommended digital and creative tools","Resources: Tools",L.tools],
+    ["Tools you can try hands-on","Play: Play with tools",L.playTools],
+    ["Interactive activities and experiments","Play: Learn through experimentation",L.playExperiment]]},
+  {cat:"Policies and guidance", ico:"shield", tone:"mint", items:[
+    ["Responsible AI use guidance","Resources: Policies",L.policies],
+    ["Copyright, privacy and intellectual property","Resources: Policies",L.policies],
+    ["Accessibility guidance","Resources: Policies",L.policies],
+    ["academyEX privacy policy","academyex.com",L.privacy]]},
+  {cat:"Your MTF Digital Portfolio", ico:"folder", tone:"butter", items:[
+    ["Portfolio templates and guidance","Resources: Tools and Software: Portfolios",L.portfolios],
+    ["Examples of portfolio entries","Community Space: Gallery",L.gallery]]},
+  {cat:"People and community", ico:"people", tone:"lilac", items:[
+    ["Futures PlayLab and MTF contacts","About: Contacts",L.contacts],
+    ["The right person for your question","Student Journey: Who do I ask about…?","#who"],
+    ["Learner and staff profiles","Community Space: Community Profiles",L.profiles],
+    ["The Futures PlayLab Slack channel","Community Space: Connect",L.connect]]},
+  {cat:"Events and news", ico:"cal", tone:"peach", items:[
+    ["Workshops, talks and events","What's On: Events",L.events],
+    ["Futures PlayLab and community dates","What's On: Calendar",L.calendar],
+    ["Futures PlayLab and MTF news","What's On: News",L.news]]},
+  {cat:"Other", ico:"spark", tone:"mint", items:[
+    ["Learner work and projects","Community Space: Gallery and XR Gallery",L.gallery],
+    ["Learner support and wellbeing services","Link to be added",L.wellbeing],
+    ["Library and research databases","Link to be added",L.library],
+    ["IT help and log-in support","Link to be added",L.itHelp],
+    ["About academyEX","About: About academyEX",L.aboutAcademyEX]]}
+];
+
+const HOW = [
+  {t:"Explain an emerging technology to an audience", ico:"mega", tone:"butter", use:"Useful for your Emerging Technology Explainer.",
+   intro:"Start with who your audience is and what they need to understand, then pick a format that suits them.",
+   approaches:["A visual explainer or infographic","A short video or audio piece","An illustrated slide story","An interactive walkthrough"],
+   tools:["Canva (an easy starting point)","Adobe Express","Premiere Pro (more advanced video)","Figma (interactive layouts)"],
+   help:[["Resources: Guides",L.guides]]},
+  {t:"Map a system", ico:"nodes", tone:"lilac", use:"Useful for the systems and futures studio and your Disruption Report.",
+   intro:"Systems maps help you see relationships, feedback loops and leverage points.",
+   approaches:["A stakeholder map","A causal loop diagram","An ecosystem map","A rich picture (a hand-drawn sketch of a whole situation)"],
+   tools:["Miro (collaborative whiteboards)","Figma or FigJam","Pen and paper, photographed for your portfolio"],
+   help:[["Resources: Guides",L.guides]]},
+  {t:"Explore possible futures", ico:"compass", tone:"peach", use:"Useful for foresight work and your Disruption Report.",
+   approaches:["Horizon scanning for signals of change","A drivers analysis","Scenario building, for example a 2×2 matrix of uncertainties","A speculative artefact: an object or story from a possible future"],
+   tools:["Miro for scenario mapping","Canva or generative AI tools for visualising future artefacts"],
+   help:[["Resources: External Resources",L.externalResources]]},
+  {t:"Make a quick prototype", ico:"cube", tone:"mint", use:"Useful in studios and when shaping your emerging project idea.",
+   intro:"Low-fidelity is fine. The goal is to test an idea, not to polish it.",
+   approaches:["Paper sketches","Storyboards","Clickable mock-ups","Physical models","A simple 3D or XR concept"],
+   tools:["Figma (screen mock-ups)","No-code platforms (working apps)","Blender (3D)","Cardboard and craft materials"],
+   help:[["Play: Play with tools",L.playTools]]},
+  {t:"Use AI tools responsibly", ico:"spark", tone:"lilac", use:"Your thinking and judgement stay at the centre.",
+   intro:"AI can help you research, brainstorm, visualise and draft, but your thinking and judgement must stay at the centre of your work.",
+   approaches:["Use AI for idea generation, summarising or creating visuals","Check every output against reliable sources","Acknowledge your AI use clearly and critically in your assessments"],
+   help:[["Resources: Policies (responsible AI use guidance)",L.policies]]},
+  {t:"Find good evidence", ico:"search", tone:"butter", use:"Useful for every assessment.",
+   intro:"Strong work draws on a mix of scholarly and professional sources.",
+   approaches:["Search academic databases","Follow references in key articles","Look at industry and government reports","Use credible news for recent developments"],
+   help:[["Library (link to be added)",L.library],["Resources: External Resources",L.externalResources]]},
+  {t:"Reflect on my own position and assumptions", ico:"mirror", tone:"peach", use:"Reflexivity is a thread through the whole MTF.",
+   questionsLabel:"A useful set of questions",
+   questions:["What is my relationship to this context?","How have I framed the issue, and what other framings are possible?","How do my methods and actions affect the system?","What feedback has changed my thinking?"],
+   help:[["Reflection guidance (link to be added)",L.reflection]]},
+  {t:"Add an entry to my Digital Portfolio", ico:"folder", tone:"mint", use:"Capture work as you go rather than at the end.",
+   questionsLabel:"For each entry, ask yourself",
+   questions:["What did I do or produce?","What did I learn?","What assumptions or perspectives shaped my approach?","What feedback changed my thinking?","What will I adapt next?"],
+   help:[["Portfolio templates and guidance",L.portfolios]]},
+  {t:"Present my emerging project idea", ico:"mega", tone:"lilac", use:"Useful for the Week 20 forum.",
+   intro:"Focus on clarity: the context, the challenge or opportunity, why it matters, and your emerging questions.",
+   approaches:["A short slide deck","A visual one-pager","A poster","A short video"],
+   tools:["Canva","Google Slides","Adobe Express"],
+   help:[["Resources: Guides",L.guides]]},
+  {t:"Give useful feedback to peers", ico:"chat", tone:"butter", use:"Useful in context groups and onsite forums.",
+   intro:"Good feedback is specific, kind and helpful.",
+   approaches:["Start with what's working","Ask questions rather than prescribing fixes","Suggest one or two things to explore further"]},
+  {t:"Choose between tools", ico:"tools", tone:"peach", use:"The most powerful tool isn't always the right one.",
+   intro:"Think about your purpose, your audience, your context and your current skill level.",
+   help:[["Resources: Tools",L.tools],["Try before you commit in Play: Play with tools",L.playTools]]}
+];
+
+// People. Add email addresses (mailto:) and what each person helps with.
+const PEOPLE = [
+  {id:"claudio", name:"Claudio Aguayo", role:"Programme Lead", tone:"lilac", email:null,
+   helps:["Programme direction and course content","Academic questions about your learning"]},
+  {id:"dylan", name:"Dylan Verdonkschot", role:"Student Support", tone:"mint", email:null,
+   helps:["Support while you study","Programme administration questions"]},
+  {id:"richard", name:"Richard Roa", role:"Extensions", tone:"peach", email:null,
+   helps:["Assessment extension requests"]}
+];
+
+// "What's your question about?" router.
+const ROUTES = [
+  {label:"Course content or ideas", to:"claudio", why:"For academic questions about the programme and your learning, start with the Programme Lead."},
+  {label:"I need an extension", to:"richard", why:"Extension requests go to Richard. Ask as early as you can."},
+  {label:"Support or wellbeing", to:"dylan", why:"Dylan can help with support while you study and point you to wellbeing services."},
+  {label:"Admin or enrolment", to:"dylan", why:"Start with Student Support for programme administration questions."},
+  {label:"Futures PlayLab tools and resources", to:"slack", why:"Ask in the Futures PlayLab Slack channel. The Futures PlayLab team and your cohort can help."},
+  {label:"IT or log-in problems", to:"it", why:"Contact IT help for log-in and technical support."}
+];
+
+/* ============================================================
+   APP: you shouldn't need to edit below this line.
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("mtf-sj-"+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("mtf-sj-"+k, JSON.stringify(v)); }catch(e){} }
+};
+
+const ICONS = {
+  home:'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/>',
+  route:'<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
+  check:'<rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+  cal:'<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  tools:'<path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5"/><path d="M5 5l4 4"/>',
+  people:'<circle cx="9" cy="8" r="3.2"/><path d="M3 19c.8-3.3 3.2-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c2.6 0 4.3 1.5 5 4"/>',
+  doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+  pin:'<path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/>',
+  book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20"/>',
+  shield:'<path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.3-1.2 7.5-4.5 7.5-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>',
+  mega:'<path d="M4 10v4h3l7 4V6L7 10z"/><path d="M18 9a4 4 0 0 1 0 6"/>',
+  nodes:'<circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="7" r="2.2"/><circle cx="12" cy="18" r="2.2"/><circle cx="12" cy="11" r="1.6"/><path d="M7 7l3.6 3M17 8l-3.6 2.4M12 12.6V16"/>',
+  compass:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+  cube:'<path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>',
+  mirror:'<ellipse cx="12" cy="9.5" rx="6" ry="6.5"/><path d="M12 16v5M9 21h6M9.5 7.5a3 3 0 0 1 2.5-1.5"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/>',
+  flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  chev:'<path d="m6 9 6 6 6-6"/>'
+};
+const ico = (n, sw=1.9) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||""}</svg>`;
+
+const VIEWS = [
+  {id:"home", label:"Dashboard", ico:"home"},
+  {id:"timeline", label:"Where am I now?", ico:"route"},
+  {id:"checklist", label:"Am I on track?", ico:"check"},
+  {id:"dates", label:"Key dates", ico:"cal"},
+  {id:"find", label:"Where can I find…", ico:"search"},
+  {id:"how", label:"How do I…", ico:"tools"},
+  {id:"who", label:"Who do I ask…", ico:"people"}
+];
+
+/* ---------- State ---------- */
+/* ---------- Dates ---------- */
+const D = s => new Date(s + "T00:00:00");
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const addDays = (d, n) => { const x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; };
+const today0 = () => { const t = new Date(); t.setHours(0,0,0,0); return t; };
+const fmt = (d, o) => d.toLocaleDateString("en-NZ", o);
+const fShort = d => fmt(d, {day:"numeric", month:"short"});
+const fDay = d => fmt(d, {weekday:"short", day:"numeric", month:"short"});
+const fLong = d => fmt(d, {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+const daysUntil = d => Math.round((d - today0()) / 864e5);
+const inDays = d => { const n = daysUntil(d); return n === 0 ? "today" : n === 1 ? "tomorrow" : n < 0 ? (n === -1 ? "yesterday" : `${-n} days ago`) : n < 14 ? `in ${n} days` : `in ${Math.round(n / 7)} weeks`; };
+const shortName = t => String(t).replace(/^(Formative|Summative) Assessment \d+:\s*/, "");
+
+const gen = () => GENS.find(c => c.id === state.cohort) || null;
+const modeOK = it => !it.mode || !state.mode || it.mode === state.mode;
+const MODE_LABEL = {ft:"Full time", pt:"Part time"};
+// The last day of a part. Part 3 depends on full or part time.
+function partEnd(p){
+  if(p.end) return D(p.end);
+  const e = state.mode === "ft" ? p.endFT : state.mode === "pt" ? p.endPT : (p.endPT || p.endFT);
+  return e ? D(e) : null;
+}
+
+// Everything that happens for a Gen, in date order
+const ORDER = {start:0, break:1, day:2, session:3, event:4, due:5};
+const itemCache = new Map();
+function itemsOf(g){
+  if(!g) return [];
+  if(itemCache.has(g.id)) return itemCache.get(g.id);
+  const out = [];
+  g.parts.forEach(p => {
+    out.push({t:`Part ${p.n} starts: ${PARTS_INFO[p.n].name}`, type:"start", part:p.n, date:D(p.start)});
+    (p.days || []).forEach(x => out.push({...x, type:"day", kind:x.kind || "onsite", part:p.n, date:D(x.d)}));
+    (p.due || []).forEach(x => out.push({...x, type:"due", part:p.n, date:D(x.d)}));
+    (p.events || []).forEach(x => out.push({...x, type:"event", kind:"event", part:p.n, date:D(x.d), endDate:x.end ? D(x.end) : null}));
+    (p.sessions || []).forEach((s, si) => s.dates.forEach(d => out.push({t:s.label || (s.kind === "onsite" ? "Onsite session" : "Online session"), time:s.time, type:"session", kind:s.kind, part:p.n, si, date:D(d)})));
+  });
+  (g.breaks || []).forEach(([t, a, b]) => out.push({t, type:"break", kind:"break", date:D(a), endDate:D(b)}));
+  out.sort((a, b) => a.date - b.date || ORDER[a.type] - ORDER[b.type]);
+  itemCache.set(g.id, out);
+  return out;
+}
+const isOnsiteDay = i => i.type === "day" && (i.kind === "onsite" || i.kind === "workshop");
+const lastDay = i => i.endDate || i.date;
+
+// The weeks of Part 1 or 2, counted from the part's first day. Weeks with no
+// sessions over the holidays aren't counted, so week numbers match the handbook.
+const weekCache = new Map();
+function weeksOf(g, p){
+  if(!g || !p || p.n === 3 || !p.end) return null;
+  const key = g.id + p.n;
+  if(weekCache.has(key)) return weekCache.get(key);
+  const start = D(p.start), end = D(p.end);
+  const count = Math.max(1, Math.round(((end - start) / 864e5 + 1) / 7));
+  const items = itemsOf(g).filter(i => i.part === p.n && i.type !== "start");
+  const named = (g.breaks || []).map(([t, a, b]) => ({t, a:D(a), b:D(b)}));
+  const blocks = Array.from({length:count}, (_, i) => {
+    const s = addDays(start, 7 * i), e = addDays(s, 6);
+    return {i, start:s, end:e, items:items.filter(x => x.date >= s && x.date <= e), brk:false};
+  });
+  const inNamed = b => named.find(n => b.start <= n.b && b.end >= n.a);
+  const byPreference = (x, y) => (inNamed(y) ? 1 : 0) - (inNamed(x) ? 1 : 0) || x.i - y.i;
+  // Use the handbook's week labels (wk) to find the holiday weeks
+  let prev = {idx:0, wk:1};
+  blocks.forEach((b, idx) => {
+    const a = b.items.find(x => x.wk); if(!a || idx === 0) return;
+    const extra = (idx - prev.idx - 1) - (a.wk - prev.wk - 1);
+    if(extra < 0) return;                       // the label doesn't fit the dates: trust the dates
+    if(extra > 0) blocks.slice(prev.idx + 1, idx).filter(x => !x.items.length).sort(byPreference).slice(0, extra).forEach(x => x.brk = true);
+    prev = {idx, wk:a.wk};
+  });
+  const target = PARTS_INFO[p.n].weeks || count;
+  const teaching = blocks.filter(b => !b.brk);
+  if(teaching.length > target) teaching.filter(b => !b.items.length).sort(byPreference).slice(0, teaching.length - target).forEach(b => b.brk = true);
+  let n = 0;
+  blocks.forEach(b => { if(b.brk){ const nb = inNamed(b); b.brkName = nb ? nb.t : ""; } else b.n = ++n; });
+  weekCache.set(key, blocks);
+  return blocks;
+}
+const teachingWeeks = (g, p) => (weeksOf(g, p) || []).filter(b => !b.brk);
+
+// Where is this Gen today?
+// phase: before | week | pause (a week with no sessions) | part (Part 3) | between (study break) | after
+function statusOf(g){
+  if(!g) return null;
+  const t = today0(), parts = g.parts;
+  if(t < D(parts[0].start)) return {phase:"before", part:parts[0]};
+  for(const p of parts){
+    const end = partEnd(p);
+    if(t >= D(p.start) && (!end || t <= end)){
+      const weeks = weeksOf(g, p);
+      if(!weeks) return {phase:"part", part:p};
+      const b = weeks.find(x => t >= x.start && t <= x.end) || weeks[weeks.length - 1];
+      if(b.brk) return {phase:"pause", part:p, block:b, next:weeks.find(x => !x.brk && x.start > t) || null};
+      return {phase:"week", part:p, block:b, week:b.n};
+    }
+  }
+  const next = parts.find(p => D(p.start) > t);
+  if(next){ const br = (g.breaks || []).find(([, a, b]) => t >= D(a) && t <= D(b)); return {phase:"between", part:next, brk:br ? br[0] : ""}; }
+  return {phase:"after", part:parts[parts.length - 1]};
+}
+// The week the dashboard opens on
+function nowWeek(st){
+  if(!st) return 1;
+  if(st.phase === "week") return st.week;
+  if(st.phase === "pause") return st.next ? st.next.n : teachingWeeks(gen(), st.part).length;
+  if(st.phase === "after") return teachingWeeks(gen(), st.part).length || 1;
+  return 1;
+}
+// The Part 1 week, for the Part 1 checklist
+function part1Week(st){
+  if(!st) return store.get("week", 1);
+  if(st.part.n === 1){ if(st.phase === "week") return st.week; if(st.phase === "pause") return st.next ? st.next.n - 1 : 20; return st.phase === "after" ? 20 : 1; }
+  return 20;
+}
+
+const urlCohort = (new URLSearchParams(location.search).get("gen") || "").toLowerCase().replace(/\s+/g,"");
+const state = {
+  cohort: GENS.some(c => c.id === urlCohort) ? urlCohort : store.get("cohort", GENS.length === 1 ? GENS[0].id : null),
+  mode: store.get("mode", null),        // Part 3: "ft" or "pt"
+  st: null,
+  week: 1,               // this week in the current part
+  focus: 1,              // week being viewed on the dashboard
+  p1week: 1,
+  checks: new Set(store.get("checks", [])),
+  filter: "all",
+  tab: null,             // part shown in "Where am I now?"
+  dateFilter: "all",
+  route: null
+};
+if(!GENS.some(c => c.id === state.cohort)) state.cohort = null;
+if(!["ft","pt"].includes(state.mode)) state.mode = null;
+
+function syncWeek(){
+  state.st = statusOf(gen());
+  state.week = state.focus = nowWeek(state.st);
+  state.p1week = part1Week(state.st);
+  state.tab = state.st ? state.st.part.n : 1;
+}
+syncWeek();
+
+/* ---------- Navigation ---------- */
+function renderNav(){
+  $("#nav").innerHTML = VIEWS.map(v =>
+    `<button data-view="${v.id}">${ico(v.ico)}<span>${esc(v.label)}</span></button>`).join("");
+  $("#nav").addEventListener("click", e => {
+    const b = e.target.closest("button"); if(b) go(b.dataset.view);
+  });
+}
+// Go back to the top. Inside the Google Sites embed, also ask the outer
+// page to scroll up to the top of the embed.
+function toTop(){
+  window.scrollTo(0, 0);
+  try{ document.documentElement.scrollIntoView({block:"start", behavior:"instant"}); }catch(e){}
+}
+function go(id, opts={}){
+  if(!VIEWS.some(v => v.id === id)) id = "home";
+  document.querySelectorAll(".view").forEach(s => s.classList.toggle("active", s.id === "view-"+id));
+  document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.view === id) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  if(history.replaceState) history.replaceState(null, "", "#"+id);
+  if(!opts.keepScroll) toTop();
+  if(opts.scrollTo){ const el = document.getElementById(opts.scrollTo); if(el){ el.scrollIntoView({block:"center"}); el.focus({preventScroll:true}); } }
+}
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]"); if(g){ e.preventDefault(); go(g.dataset.go); }
+});
+
+/* ---------- Gen and study mode ---------- */
+function renderPicker(){
+  const sel = $("#cohortSel");
+  sel.innerHTML = (state.cohort ? "" : `<option value="">Choose…</option>`) +
+    GENS.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
+  sel.value = state.cohort || "";
+  sel.onchange = () => setCohort(sel.value);
+}
+function setCohort(id){
+  state.cohort = id || null; store.set("cohort", state.cohort);
+  syncWeek(); renderPicker(); renderAll();
+}
+function setMode(m){
+  state.mode = ["ft","pt"].includes(m) ? m : null; store.set("mode", state.mode);
+  syncWeek(); renderAll();
+}
+const showModePicker = () => state.st && state.st.part.n === 3;
+function modeSelectHTML(id){
+  return `<select id="${id}" aria-label="Part 3 study mode"><option value="">Full or part time?</option><option value="ft">Full time (20 weeks)</option><option value="pt">Part time (40 weeks)</option></select>`;
+}
+function renderWeekBox(){
+  const box = $("#weekBox"), st = state.st;
+  box.hidden = !st;
+  if(!st){ box.innerHTML = ""; return; }
+  const p = st.part, info = PARTS_INFO[p.n];
+  const [main, sub] = {
+    before:  [`Starts ${fShort(D(p.start))}`, `Part 1: ${info.name}`],
+    week:    [`Part ${p.n} · Week ${st.week}`, "Based on today's date"],
+    pause:   [`Part ${p.n} · ${st.brkName || (st.block && st.block.brkName) || "No sessions"}`, st.next ? `Back ${fShort(st.next.start)}` : "No sessions this week"],
+    part:    [`Part ${p.n}`, state.mode ? `${MODE_LABEL[state.mode]}, ${info.name}` : info.name],
+    between: [st.brk || "Between parts", `Part ${p.n} starts ${fShort(D(p.start))}`],
+    after:   ["Finished", "You've completed the programme"]
+  }[st.phase];
+  box.innerHTML = `<span class="wk-auto"><b>${esc(main)}</b><small>${esc(sub)}</small></span>${showModePicker() ? modeSelectHTML("modeSel") : ""}`;
+  const ms = $("#modeSel"); if(ms){ ms.value = state.mode || ""; ms.onchange = () => setMode(ms.value); }
+}
+function renderPrompt(){
+  const el = $("#cohortPrompt");
+  if(state.cohort || !GENS.length){ el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  el.innerHTML = `<div class="cohort-prompt"><div><h2>Which Gen are you in?</h2><p>We'll load your dates and show where you are in the programme. You only need to do this once.</p></div>
+    <div class="opts">${GENS.map(c => `<button data-cohort="${esc(c.id)}">${esc(c.name)}<small>${esc(c.intake || "")}</small></button>`).join("")}</div></div>`;
+}
+
+/* ---------- Dashboard ---------- */
+function renderStrip(){
+  const g = gen(), st = state.st, track = $("#track"), blocksEl = $("#stripBlocks"), legend = $("#stripLegend");
+  const weeks = st ? teachingWeeks(g, st.part) : [];
+  if(!st || !weeks.length){
+    // Part 3 (or no Gen yet): the whole programme as three parts
+    blocksEl.hidden = true; legend.hidden = true;
+    track.className = "prog";
+    track.style.gridTemplateColumns = "";
+    if(!g){ track.innerHTML = `<p class="prog-empty">Choose your Gen to see where you are in the programme.</p>`; return; }
+    const t = today0();
+    track.innerHTML = g.parts.map(p => {
+      const s = D(p.start), e = partEnd(p), info = PARTS_INFO[p.n];
+      const cur = st.part.n === p.n && st.phase !== "between" && st.phase !== "before", past = e && e < t;
+      const pct = cur && e ? Math.max(0, Math.min(100, (t - s) / (e - s) * 100)) : past ? 100 : 0;
+      return `<div class="seg ${cur ? "current" : ""} ${past ? "past" : ""}" style="flex:${p.n === 3 ? (state.mode === "ft" || !p.endPT ? 20 : 40) : info.weeks}">
+        <div class="seg-bar"><i style="width:${pct}%"></i></div>
+        <b>Part ${p.n}: ${esc(info.name)}</b><span>${esc(fShort(s))}${e ? " to " + esc(fShort(e)) : ""}${p.n === 3 && !state.mode && e ? " (part time)" : ""}</span>
+        ${cur ? `<em>You're here</em>` : ""}</div>`;
+    }).join("");
+    return;
+  }
+  const p = st.part;
+  blocksEl.hidden = false; legend.hidden = false;
+  blocksEl.innerHTML = p.n === 1
+    ? BLOCKS.map(b => `<div><b>${esc(b.name)}</b> &nbsp;Weeks ${b.weeks[0]}–${b.weeks[1]}</div>`).join("")
+    : `<div><b>Part ${p.n}: ${esc(PARTS_INFO[p.n].name)}</b> &nbsp;Weeks 1–${weeks.length}</div>`;
+  blocksEl.style.gridTemplateColumns = p.n === 1 ? "1fr 1fr" : "1fr";
+  track.className = "track";
+  track.style.gridTemplateColumns = `repeat(${weeks.length},1fr)`;
+  const t = today0(), live = st.phase === "week";
+  track.innerHTML = weeks.map((b, i) => {
+    const onsite = b.items.some(isOnsiteDay);
+    const cls = [onsite ? "onsite" : "online", b.end < t ? "past" : "", live && b.n === state.week ? "current" : "", b.n === state.focus && !(live && b.n === state.week) ? "selected" : ""].join(" ");
+    const title = p.n === 1 && WEEKS[b.n - 1] ? WEEKS[b.n - 1].t : `Week ${b.n}`;
+    return `<button class="node ${cls}" style="--i:${i}" data-week="${b.n}" aria-label="Week ${b.n}, from ${esc(fShort(b.start))}: ${esc(title)}, ${onsite ? "onsite day" : "online"}${live && b.n === state.week ? ", your current week" : ""}" aria-pressed="${b.n === state.focus}"><i class="dot"></i><span>${b.n}</span></button>`;
+  }).join("") + `<div class="you" id="you">${{before:"Starts here", between:"Up next", pause:"Back soon", after:"Finished"}[st.phase] || "You're here"}</div>`;
+  const you = $("#you"), n = weeks.length;
+  you.style.left = ((state.week - .5) / n * 100) + "%";
+  const shift = state.week <= 2 ? 22 : state.week >= n - 1 ? 78 : 50;
+  you.style.transform = `translateX(-${shift}%)`;
+  you.style.setProperty("--ax", shift + "%");
+}
+
+function itemLine(i, opts = {}){
+  const range = i.endDate && iso(i.endDate) !== iso(i.date);
+  const when = opts.noDate ? "" : (range ? `${fDay(i.date)} to ${fDay(i.endDate)}` : fDay(i.date));
+  const kind = {day:{onsite:"Onsite day", online:"Full day online", workshop:"Workshop"}[i.kind], due:i.kind === "summative" ? "Summative assessment due" : "Formative assessment due", event:"Presentations", session:i.kind === "onsite" ? "Onsite session" : "Online session", break:"Break", start:"New part"}[i.type] || "";
+  const meta = [when, i.time, i.mode ? MODE_LABEL[i.mode] : ""].filter(Boolean).join(" · ");
+  const kindTxt = kind && kind.toLowerCase() !== String(i.t).toLowerCase() ? kind : "";
+  return `<li class="it it-${i.type} k-${i.kind || ""}"><i class="it-dot" aria-hidden="true"></i><div><b>${esc(i.t)}</b><span>${esc([kindTxt, meta].filter(Boolean).join(" · "))}</span>${i.note ? `<span class="it-note">${esc(i.note)}</span>` : ""}</div></li>`;
+}
+
+function renderWeekDetail(){
+  const g = gen(), st = state.st, box = $("#weekDetail");
+  if(!st){ box.innerHTML = `<div class="card-head"><h2>This week</h2></div><p style="color:var(--ink-2)">Choose your Gen at the top of the page to see your week.</p>`; return; }
+  const p = st.part, info = PARTS_INFO[p.n];
+  const weeks = teachingWeeks(g, p);
+  if(!weeks.length){
+    // Part 3, or the programme is finished
+    const up = itemsOf(g).filter(i => i.part === 3 && lastDay(i) >= today0() && modeOK(i) && (i.type === "day" || i.type === "due" || i.type === "event")).slice(0, 4);
+    box.innerHTML = `<div class="card-head"><h2>${st.phase === "after" ? "You've finished" : "Part 3"}</h2><button class="link-btn" data-go="dates">All key dates</button></div>
+      <div class="wk-body"><div class="wk-meta"><span class="pill online">${esc(st.phase === "after" ? "Programme complete" : state.mode ? MODE_LABEL[state.mode] : "Full or part time")}</span>${partEnd(p) ? `<span class="pill tbc">Ends ${esc(fShort(partEnd(p)))}</span>` : ""}</div>
+        <h3>Part 3: ${esc(info.name)}</h3><p>${esc(info.about)}</p></div>
+      ${!state.mode && st.phase !== "after" ? `<div class="assess-box">${ico("flag")}<div><small>Studying full or part time?</small><b>Choose at the top of the page to see only your workshops and deadlines.</b></div></div>` : ""}
+      ${up.length ? `<h4 class="it-head">Coming up in Part 3</h4><ul class="its">${up.map(i => itemLine(i)).join("")}</ul>` : ""}`;
+    return;
+  }
+  const n = weeks.length, b = weeks[state.focus - 1] || weeks[0], w = p.n === 1 ? WEEKS[b.n - 1] : null;
+  const isNow = b.n === state.week;
+  const items = b.items.filter(modeOK);
+  const onsite = items.some(isOnsiteDay);
+  const head = isNow ? ({before:"Your first week", between:`Part ${p.n} starts ${fShort(D(p.start))}`, pause:"Next week", after:`Last week of Part ${p.n}`}[st.phase] || "This week") : (b.n < state.week ? "Looking back" : "Looking ahead");
+  box.innerHTML = `
+    <div class="card-head"><h2>${esc(head)}</h2>
+      ${isNow ? "" : `<button class="link-btn" id="backNow">Back to week ${state.week}</button>`}</div>
+    ${isNow && st.phase === "pause" ? `<p class="pause-note">${esc(st.block.brkName || "No sessions this week")}. Sessions start again on ${esc(fDay(st.next ? st.next.start : st.block.end))}.</p>` : ""}
+    ${isNow && st.phase === "between" && st.brk ? `<p class="pause-note">You're on a ${esc(st.brk.toLowerCase())}. Here's what's on when Part ${p.n} starts.</p>` : ""}
+    <div class="wk-layout">
+      <div class="wk-num" aria-hidden="true">${String(b.n).padStart(2,"0")}</div>
+      <div class="wk-body">
+        <div class="wk-meta">
+          <span class="pill ${onsite ? "onsite" : "online"}">${onsite ? "Onsite day" : "Online"}</span>
+          <span class="pill tbc">${p.n === 1 ? (b.n <= 10 ? "Block 1" : "Block 2") : `Part ${p.n}`}</span>
+          <span class="pill tbc">${esc(fShort(b.start))} to ${esc(fShort(b.end))}</span>
+        </div>
+        <h3>${w ? `Week ${b.n}: ${esc(w.t)}` : `Part ${p.n}, week ${b.n} of ${n}`}</h3>
+        <p>${esc(w ? w.d : info.q)}</p>
+      </div>
+    </div>
+    <h4 class="it-head">In your calendar this week</h4>
+    ${items.length ? `<ul class="its">${items.map(i => itemLine(i)).join("")}</ul>` : `<p class="it-none">No scheduled sessions or deadlines this week.</p>`}
+    ${w && w.a ? `<div class="assess-box">${ico("flag")}<div><small>Assessment focus</small><b>${esc(w.a)}</b></div></div>` : ""}
+    <div class="wk-nav">
+      <button class="ghost-btn" data-step="-1" ${b.n === 1 ? "disabled" : ""}>Previous week</button>
+      <button class="ghost-btn" data-step="1" ${b.n === n ? "disabled" : ""}>Next week</button>
+      <button class="ghost-btn" data-go="timeline">See all ${n} weeks</button>
+    </div>`;
+}
+
+function checklistProgress(){
+  const total = CHECKLIST.reduce((a,g) => a + g.items.length, 0);
+  const done = CHECKLIST.reduce((a,g) => a + g.items.filter((_,i) => state.checks.has(g.id+"-"+i)).length, 0);
+  return {total, done};
+}
+function renderRing(){
+  const g = gen(), st = state.st, C = 2 * Math.PI * 58, fg = $("#ringPart");
+  let pct = 0, label = "of the programme", lines = [];
+  if(st){
+    const p = st.part, info = PARTS_INFO[p.n], weeks = teachingWeeks(g, p), n = weeks.length;
+    label = `of Part ${p.n}`;
+    if(n){
+      const doneWeeks = {week:state.week, pause:st.next ? st.next.n - 1 : n, after:n}[st.phase] || 0;
+      pct = Math.round(doneWeeks / n * 100);
+      lines.push([st.phase === "week" ? `Week ${state.week} of ${n}` : st.phase === "after" ? "Programme complete" : st.phase === "pause" ? `${doneWeeks} of ${n} weeks done` : `Starts ${fShort(D(p.start))}`, `Part ${p.n}: ${info.name}`]);
+    } else {
+      const s = D(p.start), e = partEnd(p), t = today0();
+      pct = e ? Math.round(Math.max(0, Math.min(1, (t - s) / (e - s))) * 100) : 0;
+      lines.push([e ? `Ends ${fShort(e)}` : `Started ${fShort(s)}`, `Part 3: ${info.name}${state.mode ? ", " + MODE_LABEL[state.mode].toLowerCase() : ""}`]);
+    }
+    const due = itemsOf(g).find(i => i.type === "due" && i.date >= today0() && modeOK(i));
+    if(due) lines.push([`Next due ${inDays(due.date)}`, shortName(due.t)]);
+    if(p.n === 1){ const c = checklistProgress(); lines.push([`${c.done} of ${c.total} ticked`, "on the Part 1 checklist"]); }
+  } else lines.push(["Choose your Gen", "to see your progress"]);
+  fg.style.strokeDasharray = C;
+  fg.style.strokeDashoffset = C * (1 - pct/100);
+  $("#ringPct").textContent = st && !teachingWeeks(g, st.part).length && !partEnd(st.part) ? "–" : pct + "%";
+  $("#ringOf").textContent = label;
+  $("#ringStats").innerHTML = lines.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+}
+
+function nextItem(pred){ const t = today0(); return itemsOf(gen()).find(i => lastDay(i) >= t && modeOK(i) && pred(i)); }
+function tileHTML(icon, label, value, sub){ return `<span class="t-ico">${ico(icon)}</span><small>${label}</small><b>${value}</b>${sub ? `<span class="t-sub">${sub}</span>` : ""}`; }
+function renderTiles(){
+  const has = !!gen();
+  const o = has && nextItem(isOnsiteDay);
+  $("#tileOnsite").innerHTML = tileHTML("pin", o && o.kind === "workshop" ? "Next workshop" : "Next onsite day", o ? esc(fDay(o.date)) : has ? "None scheduled" : "Choose your Gen", o ? esc([o.t, o.time].filter(Boolean).join(", ")) : "");
+  const a = has && nextItem(i => i.type === "due");
+  $("#tileAssess").innerHTML = tileHTML("flag", "Next assessment due", a ? esc(fDay(a.date)) + (a.time ? ", " + esc(a.time) : "") : has ? "Nothing due" : "Choose your Gen", a ? esc(shortName(a.t)) + (a.mode ? ` (${MODE_LABEL[a.mode].toLowerCase()})` : "") : "");
+  const s = has && nextItem(i => i.type === "session" || (i.type === "day" && i.kind === "online"));
+  const ev = !s && has && nextItem(i => i.type === "event");
+  $("#tileDate").innerHTML = s ? tileHTML("cal", s.kind === "onsite" && s.type === "session" ? "Next onsite session" : "Next online session", esc(fDay(s.date)), esc([s.type === "day" ? s.t : "", s.time].filter(Boolean).join(", ")))
+    : ev ? tileHTML("cal", "Next presentations", esc(fDay(ev.date)), esc(ev.t)) : tileHTML("cal", "Next session", has ? "None scheduled" : "Choose your Gen", has ? "Part 3 has workshops instead of weekly sessions" : "");
+  $("#tileWho").innerHTML = tileHTML("people", "Need help?", "Find the right person to ask");
+}
+
+function renderGantt(){
+  const g = gen(), st = state.st, box = $("#gantt");
+  if(!st){ box.innerHTML = `<p class="note" style="grid-column:1/-1">Choose your Gen to see your assessments.</p>`; $("#ganttWeek").textContent = ""; return; }
+  const p = st.part, dues = itemsOf(g).filter(i => i.part === p.n && i.type === "due" && modeOK(i));
+  $("#ganttWeek").textContent = `Part ${p.n}`;
+  if(!dues.length){ box.innerHTML = `<p class="note" style="grid-column:1/-1">No assessments listed for Part ${p.n}.</p>`; return; }
+  const s = D(p.start), e = partEnd(p) || addDays(dues[dues.length - 1].date, 14), span = e - s || 1;
+  const pos = d => Math.max(0, Math.min(100, (d - s) / span * 100));
+  const t = today0();
+  const now = t >= s && t <= e ? `<div class="g-now" style="left:calc(${pos(t)}% - 1px)"></div>` : "";
+  let prev = s;
+  const rows = dues.map(a => {
+    const from = state.mode || !a.mode ? prev : dues.filter(x => x.mode === a.mode && x.date < a.date).map(x => x.date).pop() || s;
+    const left = pos(from), width = Math.max(4, pos(a.date) - left);
+    if(state.mode || !a.mode) prev = a.date;
+    return `<div class="g-name"><b>${esc(shortName(a.t))}</b><span>${a.kind === "summative" ? "Summative" : "Formative"}${a.mode && !state.mode ? ", " + MODE_LABEL[a.mode].toLowerCase() : ""}</span></div>
+      <div class="g-track" role="img" aria-label="${esc(shortName(a.t))}: due ${esc(fLong(a.date))}">
+        <div class="g-bar ${a.kind} ${a.date < t ? "done" : ""}" style="left:${left}%;width:${width}%"><span>Due ${esc(fShort(a.date))}</span></div>${now}
+      </div>`;
+  }).join("");
+  // Month labels along the bottom
+  const months = []; const m = new Date(s.getFullYear(), s.getMonth() + 1, 1);
+  while(m <= e){ months.push(`<span style="left:${pos(m)}%">${esc(fmt(m, {month:"short"}))}</span>`); m.setMonth(m.getMonth() + 1); }
+  const axis = `<div class="g-axis months" aria-hidden="true">${months.join("")}</div>`;
+  box.innerHTML = rows + (window.matchMedia("(max-width:900px)").matches ? axis : `<div></div>` + axis);
+}
+
+function dateItem(i, opts = {}){
+  const range = i.endDate && iso(i.endDate) !== iso(i.date);
+  const chip = `<small>${esc(fmt(i.date, {month:"short"}))}</small><b>${esc(fmt(i.date, {day:"numeric"}))}</b>`;
+  const kind = {day:{onsite:"Onsite day", online:"Full day online", workshop:"Part 3 workshop"}[i.kind], due:i.kind === "summative" ? "Summative assessment due" : "Formative assessment due", event:"Presentations", break:"Break", start:"Part starts"}[i.type] || "";
+  const when = range ? `${fmt(i.date, {weekday:"short", day:"numeric", month:"short"})} to ${fmt(i.endDate, {weekday:"short", day:"numeric", month:"short", year:"numeric"})}` : fLong(i.date);
+  const meta = [kind && kind.toLowerCase() !== String(i.t).toLowerCase() ? kind : "", when, i.time, i.mode ? MODE_LABEL[i.mode] : ""].filter(Boolean).join(" · ");
+  const past = lastDay(i) < today0();
+  return `<li class="${past ? "past" : ""} dk-${i.type} dk-${i.kind || ""}"><div class="date-chip">${chip}</div><div><b class="t">${esc(i.t)}${opts.next ? ` <span class="pill next-pill">Next</span>` : ""}</b><span>${esc(meta)}</span>${i.note ? `<span class="d-note">${esc(i.note)}</span>` : ""}</div></li>`;
+}
+const KEY_TYPES = new Set(["day","due","event","break","start"]);
+function renderUpcoming(){
+  const g = gen(), t = today0();
+  const list = g ? itemsOf(g).filter(i => KEY_TYPES.has(i.type) && lastDay(i) >= t && modeOK(i)).slice(0, 4) : [];
+  $("#upcoming").innerHTML = !g ? `<li><div><b class="t">Choose your Gen</b><span>Your key dates will appear here.</span></div></li>`
+    : list.length ? list.map(i => dateItem(i)).join("") : `<li><div><b class="t">No more key dates</b><span>You've reached the end of your programme dates.</span></div></li>`;
+}
+
+/* ---------- Key dates ---------- */
+const DATE_FILTERS = [["all","All dates"],["onsite","Onsite days"],["due","Assessments"],["sessions","Weekly sessions"],["break","Breaks"]];
+function renderDates(){
+  const g = gen(), box = $("#allDates");
+  $("#dateFilters").innerHTML = DATE_FILTERS.map(([k, l]) => `<button class="chip" data-dfilter="${k}" aria-pressed="${state.dateFilter === k}">${l}</button>`).join("");
+  const hasP3 = g && g.parts.some(p => p.n === 3);
+  $("#modeFilters").hidden = !hasP3;
+  $("#modeFilters").innerHTML = hasP3 ? `<span class="note">Part 3:</span>` + [["","Full and part time"],["ft","Full time"],["pt","Part time"]].map(([k, l]) => `<button class="chip" data-mode="${k}" aria-pressed="${(state.mode || "") === k}">${l}</button>`).join("") : "";
+  if(!g){ box.innerHTML = `<div class="card"><p style="color:var(--ink-2)">Choose your Gen at the top of the page to see your key dates.</p></div>`; return; }
+  const t = today0(), f = state.dateFilter;
+  const all = itemsOf(g).filter(modeOK);
+  const nextKey = all.find(i => KEY_TYPES.has(i.type) && i.type !== "start" && lastDay(i) >= t);
+  const keep = i => f === "all" ? KEY_TYPES.has(i.type)
+    : f === "onsite" ? isOnsiteDay(i) : f === "due" ? (i.type === "due" || i.type === "event")
+    : f === "sessions" ? (i.type === "day" && i.kind === "online") : f === "break" ? i.type === "break" : false;
+  box.innerHTML = g.parts.map((p, k) => {
+    const s = D(p.start), e = partEnd(p), nextStart = g.parts[k + 1] ? D(g.parts[k + 1].start) : null, info = PARTS_INFO[p.n];
+    const inPart = i => i.part === p.n || (i.type === "break" && i.date >= s && (!nextStart || i.date < nextStart));
+    const list = all.filter(i => inPart(i) && i.type !== "start" && keep(i));
+    const sessions = (f === "all" || f === "sessions") ? (p.sessions || []) : [];
+    if(!list.length && !sessions.length) return "";
+    const isCur = state.st && state.st.part.n === p.n;
+    const done = e && e < t && !isCur;
+    const headHTML = `<div><h2>Part ${p.n}: ${esc(info.name)}</h2><p class="note">${esc(fLong(s))}${e ? " to " + esc(fLong(e)) : ""}${p.n === 3 && !state.mode && p.endFT ? ` (part time; full time ends ${esc(fShort(D(p.endFT)))})` : ""}</p></div>${isCur ? `<span class="now-tag">You're here</span>` : done ? `<span class="pill tbc">Finished · show dates</span>` : ""}`;
+    // Finished parts start folded away
+    return `<${done ? "details" : "section"} class="card part-dates ${done ? "is-past" : ""}">
+      ${done ? `<summary class="card-head">${headHTML}</summary>` : `<div class="card-head">${headHTML}</div>`}
+      ${p.note ? `<div class="callout" style="margin:0 0 12px">${ico("info")}<p>${esc(p.note)}</p></div>` : ""}
+      ${sessions.map(se => {
+        const next = se.dates.map(D).find(d => d >= t);
+        return `<div class="sessions"><div><b>${esc(se.kind === "onsite" ? "Onsite sessions" : "Online sessions")}</b><span>${esc(se.when)}</span></div>
+          <div class="s-dates">${se.dates.map(d => { const dd = D(d); return `<span class="${dd < t ? "past" : ""} ${next && iso(next) === d ? "next" : ""}" title="${esc(fLong(dd))}">${esc(fShort(dd))}</span>`; }).join("")}</div></div>`;
+      }).join("")}
+      ${list.length ? `<ul class="dates">${list.map(i => dateItem(i, {next: i === nextKey})).join("")}</ul>` : ""}
+    </${done ? "details" : "section"}>`;
+  }).join("") || `<div class="card"><p style="color:var(--ink-2)">Nothing to show for this filter.</p></div>`;
+}
+
+/* ---------- Where am I now? ---------- */
+function renderTimeline(){
+  const g = gen(), box = $("#timeline");
+  if(!g){ $("#partTabs").innerHTML = ""; box.innerHTML = `<div class="card"><p style="color:var(--ink-2)">Choose your Gen at the top of the page to see your weeks.</p></div>`; return; }
+  const cur = state.st ? state.st.part.n : 1;
+  $("#partTabs").innerHTML = g.parts.map(p => `<button class="chip" data-tab="${p.n}" aria-pressed="${state.tab === p.n}">Part ${p.n}${p.n === cur ? " · now" : ""}</button>`).join("");
+  const p = g.parts.find(x => x.n === state.tab) || g.parts[0], info = PARTS_INFO[p.n];
+  $("#filterBox").hidden = p.n === 3;
+  $("#tlIntro").textContent = p.n === 3 ? `Part 3: ${info.name}. ${info.about}`
+    : `Part ${p.n}: ${info.name} runs for ${teachingWeeks(g, p).length} weeks${p.n === 1 ? " across two blocks" : ""}. ${p.n === state.st?.part.n ? "Select any week to see it on your dashboard." : ""}`;
+  if(p.n === 3){
+    const list = itemsOf(g).filter(i => i.part === 3 && (i.type === "day" || i.type === "due" || i.type === "event") && modeOK(i));
+    box.innerHTML = `<div class="card"><div class="card-head"><h2>Workshops and deadlines</h2>${!state.mode ? `<span class="pill tbc">Full and part time</span>` : `<span class="pill online">${MODE_LABEL[state.mode]}</span>`}</div><ul class="dates">${list.map(i => dateItem(i)).join("")}</ul></div>`;
+    return;
+  }
+  const weeks = weeksOf(g, p), t = today0(), clickable = state.st && p.n === state.st.part.n;
+  const live = state.st && state.st.phase === "week" && clickable;
+  const groups = p.n === 1 ? BLOCKS : [{name:`Part 2: ${info.name}`, weeks:[1, teachingWeeks(g, p).length], q:info.q}];
+  let lastN = 0; weeks.forEach(b => { if(!b.brk) lastN = b.n; b.grp = b.brk ? lastN : b.n; });   // a holiday week sits with the week before it
+  box.innerHTML = groups.map(gr => {
+    const bl = weeks.filter(b => b.grp >= gr.weeks[0] && b.grp <= gr.weeks[1]);
+    const cards = bl.map((b, k) => {
+      if(b.brk){
+        // One card for a run of holiday weeks
+        if(state.filter !== "all" || (bl[k - 1] && bl[k - 1].brk)) return "";
+        let last = b; for(let j = k + 1; bl[j] && bl[j].brk; j++) last = bl[j];
+        return `<div class="wbreak"><b>${esc(b.brkName || "No sessions")}</b><span>${esc(fShort(b.start))} to ${esc(fShort(last.end))}</span></div>`;
+      }
+      const onsite = b.items.some(isOnsiteDay), mode = onsite ? "onsite" : "online";
+      if(state.filter !== "all" && state.filter !== mode) return "";
+      const w = p.n === 1 ? WEEKS[b.n - 1] : null, isNow = live && b.n === state.week;
+      const tag = clickable ? "button" : "div";
+      const dues = b.items.filter(i => i.type === "due" || i.type === "event" || isOnsiteDay(i) || (i.type === "day" && i.kind === "online"));
+      return `<${tag} class="wcard ${onsite ? "onsite-card" : ""} ${isNow ? "current" : ""} ${b.end < t ? "is-past" : ""}" id="wk-${b.n}" ${clickable ? `data-open-week="${b.n}"` : ""}>
+          <div class="wc-top"><span class="wc-n">${b.n}</span>${isNow ? '<span class="now-tag">You\'re here</span>' : `<span class="pill ${mode}">${onsite ? "Onsite day" : "Online"}</span>`}</div>
+          <span class="wc-date">${esc(fShort(b.start))} to ${esc(fShort(b.end))}</span>
+          <h3>${w ? esc(w.t) : `Week ${b.n}`}</h3>
+          ${w ? `<p>${esc(w.d)}</p>` : ""}
+          ${dues.length ? `<ul class="wc-items">${dues.map(i => `<li class="k-${i.type}">${esc(fmt(i.date, {weekday:"short", day:"numeric"}))}: ${esc(i.type === "due" ? shortName(i.t) + " due" : i.t)}</li>`).join("")}</ul>` : ""}
+          ${w && w.a ? `<div class="wc-a"><b>Assessment:</b> ${esc(w.a)}</div>` : ""}
+        </${tag}>`;
+    }).join("");
+    if(!cards.trim()) return "";
+    return `<div class="block-head"><h2>${esc(gr.name)}</h2><p>Weeks ${gr.weeks[0]}–${gr.weeks[1]}. ${esc(gr.q)}</p></div><div class="weeks">${cards}</div>`;
+  }).join("");
+}
+
+/* ---------- Checklist ---------- */
+function renderChecklist(){
+  const nowGroup = CHECKLIST.find(g => g.by && g.by >= state.p1week);
+  const note = $("#checkNote");
+  if(note){ const st = state.st; note.hidden = !st || st.part.n === 1; if(st && st.part.n !== 1) note.querySelector("p").textContent = `This checklist covers Part 1. You're in Part ${st.part.n} now, so use it to look back over the foundations, or clear your ticks if you've finished with it.`; }
+  $("#checklist").innerHTML = CHECKLIST.map(g => {
+    const done = g.items.filter((_,i) => state.checks.has(g.id+"-"+i)).length;
+    const label = g.label || `By the end of Week ${g.by}`;
+    const isNow = nowGroup && g.id === nowGroup.id;
+    return `<div class="ms ${isNow ? "is-now" : ""}">
+      <div class="ms-head"><h3>${esc(label)}</h3>${isNow ? '<span class="now-tag">Up next</span>' : `<span class="ms-count">${done}/${g.items.length}</span>`}</div>
+      <div class="bar" role="progressbar" aria-label="${esc(label)} progress" aria-valuemin="0" aria-valuemax="${g.items.length}" aria-valuenow="${done}"><i style="width:${done/g.items.length*100}%"></i></div>
+      ${g.items.map((it,i) => `<label class="check"><input type="checkbox" data-check="${g.id}-${i}" ${state.checks.has(g.id+"-"+i)?"checked":""}><span>${esc(it)}</span></label>`).join("")}
+    </div>`;
+  }).join("");
+}
+
+/* ---------- Find ---------- */
+function linkAttrs(url){
+  if(!url) return null;
+  if(url.startsWith("#")) return `href="${url}" data-go="${url.slice(1)}"`;
+  const ext = /^https?:/.test(url) && !/sites\.google\.com/.test(url);
+  return `href="${esc(url)}" target="${ext ? "_blank" : "_top"}" ${ext ? 'rel="noopener"' : ""}`;
+}
+function hl(text, q){
+  const t = esc(text);
+  if(!q) return t;
+  const re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + ")", "ig");
+  return t.replace(re, "<mark>$1</mark>");
+}
+function renderFind(q=""){
+  q = q.trim().toLowerCase();
+  const html = FIND.map(c => {
+    const items = c.items.filter(([l,w]) => !q || (l+" "+w+" "+c.cat).toLowerCase().includes(q));
+    if(!items.length) return "";
+    return `<div class="cat"><h3><i style="background:var(--${c.tone});color:var(--${c.tone}-ink)">${ico(c.ico)}</i>${esc(c.cat)}</h3><ul>
+      ${items.map(([l,w,u]) => {
+        const a = linkAttrs(u);
+        return `<li><b>${hl(l,q)}</b>${a && u !== "#" ? `<a ${a}>${hl(w,q)}</a>` : `<span class="${u===null?"todo":""}">${hl(w,q)}</span>`}</li>`;
+      }).join("")}</ul></div>`;
+  }).join("");
+  $("#cats").innerHTML = html || `<div class="cat"><h3>No matches for "${esc(q)}"</h3><p style="color:var(--ink-2);font-size:14px">Try a shorter word, or ask in the Futures PlayLab Slack channel.</p></div>`;
+}
+
+/* ---------- How do I ---------- */
+function renderHow(){
+  $("#how").innerHTML = HOW.map((h,i) => `
+    <details class="how" id="how-${i}">
+      <summary>
+        <span class="how-ico" style="background:var(--${h.tone});color:var(--${h.tone}-ink)">${ico(h.ico)}</span>
+        <div><h3>${esc(h.t)}</h3><p>${esc(h.use)}</p></div>
+        <span class="chev">${ico("chev",2.2)}</span>
+      </summary>
+      <div class="how-body">
+        ${h.intro ? `<p>${esc(h.intro)}</p>` : ""}
+        ${h.approaches ? `<div><h4>Approaches</h4><ul>${h.approaches.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>` : ""}
+        ${h.questions ? `<div><h4>${esc(h.questionsLabel)}</h4><ul>${h.questions.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>` : ""}
+        ${h.tools ? `<div><h4>Tools to consider</h4><div class="tag-row">${h.tools.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div></div>` : ""}
+        ${h.help ? `<div><h4>Find help</h4>${h.help.map(([l,u]) => { const a = linkAttrs(u); return a && u !== "#" ? `<a class="help-link" ${a}>${esc(l)}</a>` : `<span class="help-link">${esc(l)}</span>`; }).join("<br>")}</div>` : ""}
+      </div>
+    </details>`).join("");
+}
+
+/* ---------- Who ---------- */
+const initials = n => n.split(" ").map(p => p[0]).slice(0,2).join("");
+function renderWho(){
+  $("#router").innerHTML = ROUTES.map((r,i) => `<button class="chip" data-route="${i}" aria-pressed="${state.route===i}">${esc(r.label)}</button>`).join("");
+  const r = state.route !== null ? ROUTES[state.route] : null;
+  const p = r && PEOPLE.find(x => x.id === r.to);
+  let ans;
+  if(!r){
+    ans = `<span class="av" style="background:var(--blue-soft);color:var(--blue-deep)">?</span><div><b>What's your question about?</b><p>Choose a topic above and we'll point you to the right person.</p></div>`;
+  } else if(p){
+    ans = `<span class="av" style="background:var(--${p.tone});color:var(--${p.tone}-ink)">${initials(p.name)}</span><div><b>${esc(p.name)}, ${esc(p.role)}</b><p>${esc(r.why)}</p></div>`;
+  } else {
+    const isSlack = r.to === "slack";
+    const url = isSlack ? L.slack : L.itHelp;
+    const a = linkAttrs(url);
+    ans = `<span class="av" style="background:var(--butter);color:var(--butter-ink)">${isSlack ? ico("chat") : ico("tools")}</span><div><b>${isSlack ? "Futures PlayLab Slack channel" : "IT help"}</b><p>${esc(r.why)} ${a && url !== "#" ? `<a ${a}>Open</a>` : ""}</p></div>`;
+  }
+  $("#answer").innerHTML = ans;
+  $("#people").innerHTML = PEOPLE.map(x => `
+    <div class="person ${p && p.id===x.id ? "hl" : ""}">
+      <div style="display:flex;gap:14px;align-items:center"><span class="av" style="background:var(--${x.tone});color:var(--${x.tone}-ink)">${initials(x.name)}</span>
+      <div><h3>${esc(x.name)}</h3><div class="role">${esc(x.role)}</div></div></div>
+      <ul>${x.helps.map(h => `<li>${esc(h)}</li>`).join("")}</ul>
+      <div class="contact">${x.email ? `<a class="link-btn" href="mailto:${esc(x.email)}" target="_top">Email ${esc(x.name.split(" ")[0])}</a>` : `<span class="pill tbc">Contact details to be added</span>`}</div>
+    </div>`).join("");
+}
+
+/* ---------- Global search ---------- */
+function buildIndex(){
+  const idx = [];
+  WEEKS.forEach(w => idx.push({title:`Week ${w.n}: ${w.t}`, sub:w.d, view:"timeline", target:"wk-"+w.n, text:`week ${w.n} ${w.t} ${w.d} ${w.a}`}));
+  FIND.forEach(c => c.items.forEach(([l,w]) => idx.push({title:l, sub:`${c.cat}. ${w}`, view:"find", q:l, text:`${l} ${w} ${c.cat}`})));
+  HOW.forEach((h,i) => idx.push({title:"How do I " + h.t.charAt(0).toLowerCase() + h.t.slice(1) + "?", sub:h.use, view:"how", target:"how-"+i, text:`${h.t} ${h.use} ${h.intro||""} ${(h.tools||[]).join(" ")} ${(h.approaches||[]).join(" ")}`}));
+  PEOPLE.forEach(p => idx.push({title:p.name, sub:p.role, view:"who", text:`${p.name} ${p.role} ${p.helps.join(" ")}`}));
+  CHECKLIST.forEach(g => idx.push({title:g.label || `Checklist: end of Week ${g.by}`, sub:g.items[0], view:"checklist", text:g.items.join(" ")}));
+  return idx;
+}
+let INDEX = [];
+function runSearch(q){
+  const box = $("#results");
+  q = q.trim().toLowerCase();
+  if(q.length < 2){ box.classList.remove("open"); box.innerHTML = ""; return; }
+  const terms = q.split(/\s+/);
+  const hits = INDEX.filter(i => terms.every(t => i.text.toLowerCase().includes(t))).slice(0,8);
+  box.innerHTML = hits.length
+    ? hits.map((h,i) => `<button role="option" data-hit="${INDEX.indexOf(h)}"><b>${hl(h.title, terms[0])}</b><span>${esc(h.sub.length > 90 ? h.sub.slice(0,90)+"…" : h.sub)}</span></button>`).join("")
+    : `<div class="empty">Nothing found for "${esc(q)}". Try another word or ask in the Futures PlayLab Slack channel.</div>`;
+  box.classList.add("open");
+}
+function openHit(h){
+  $("#results").classList.remove("open");
+  $("#q").value = "";
+  if(h.view === "find"){ $("#findQ").value = h.q; renderFind(h.q); go("find"); return; }
+  if(h.view === "timeline"){ state.filter = "all"; syncFilters(); renderTimeline(); }
+  go(h.view, {scrollTo:h.target});
+  if(h.view === "how" && h.target){ const d = document.getElementById(h.target); if(d) d.open = true; }
+}
+
+/* ---------- Wiring ---------- */
+function syncFilters(){ document.querySelectorAll("[data-filter]").forEach(b => b.setAttribute("aria-pressed", b.dataset.filter === state.filter)); }
+
+function renderBrand(){
+  const c = gen(), st = state.st;
+  $("#brandSub").textContent = c ? `${c.name}${st && st.phase !== "after" ? ", Part " + st.part.n : ""}` : "Master of Technological Futures";
+}
+function renderAll(){
+  renderBrand(); renderWeekBox(); renderPrompt();
+  renderStrip(); renderWeekDetail(); renderRing(); renderTiles(); renderGantt(); renderUpcoming();
+  renderTimeline(); renderDates(); renderChecklist(); renderWho();
+}
+
+function init(){
+  renderNav(); renderPicker(); renderFind(); renderHow(); renderAll();
+  INDEX = buildIndex();
+  if(L.slack && L.slack !== "#") $("#slackLink").href = L.slack; else $("#slackLink").addEventListener("click", e => { if(L.slack==="#"){ e.preventDefault(); go("who"); } });
+
+  $("#cohortPrompt").addEventListener("click", e => {
+    const b = e.target.closest("[data-cohort]"); if(b) setCohort(b.dataset.cohort);
+  });
+  $("#track").addEventListener("click", e => {
+    const n = e.target.closest("[data-week]"); if(!n) return;
+    state.focus = +n.dataset.week; renderStrip(); renderWeekDetail();
+  });
+  $("#weekDetail").addEventListener("click", e => {
+    const s = e.target.closest("[data-step]");
+    if(s){ state.focus = Math.min(teachingWeeks(gen(), state.st.part).length || 1, Math.max(1, state.focus + +s.dataset.step)); renderStrip(); renderWeekDetail(); }
+    if(e.target.closest("#backNow")){ state.focus = state.week; renderStrip(); renderWeekDetail(); }
+  });
+  $("#timeline").addEventListener("click", e => {
+    const c = e.target.closest("[data-open-week]"); if(!c) return;
+    state.focus = +c.dataset.openWeek; renderStrip(); renderWeekDetail(); go("home");
+    document.getElementById("weekDetail").scrollIntoView({block:"start"});
+  });
+  document.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => { state.filter = b.dataset.filter; syncFilters(); renderTimeline(); }));
+  $("#partTabs").addEventListener("click", e => { const b = e.target.closest("[data-tab]"); if(b){ state.tab = +b.dataset.tab; renderTimeline(); } });
+  $("#dateFilters").addEventListener("click", e => { const b = e.target.closest("[data-dfilter]"); if(b){ state.dateFilter = b.dataset.dfilter; renderDates(); } });
+  $("#modeFilters").addEventListener("click", e => { const b = e.target.closest("[data-mode]"); if(b) setMode(b.dataset.mode); });
+  $("#checklist").addEventListener("change", e => {
+    const c = e.target.closest("[data-check]"); if(!c) return;
+    c.checked ? state.checks.add(c.dataset.check) : state.checks.delete(c.dataset.check);
+    store.set("checks", [...state.checks]);
+    renderChecklist(); renderRing();
+    const again = document.querySelector(`[data-check="${c.dataset.check}"]`); if(again) again.focus();
+  });
+  $("#resetChecks").addEventListener("click", () => { state.checks.clear(); store.set("checks", []); renderChecklist(); renderRing(); });
+  $("#findQ").addEventListener("input", e => renderFind(e.target.value));
+  $("#router").addEventListener("click", e => {
+    const b = e.target.closest("[data-route]"); if(!b) return;
+    state.route = state.route === +b.dataset.route ? null : +b.dataset.route; renderWho();
+    const again = document.querySelector(`[data-route="${b.dataset.route}"]`); if(again) again.focus();
+  });
+  const q = $("#q");
+  q.addEventListener("input", () => runSearch(q.value));
+  q.addEventListener("keydown", e => {
+    if(e.key === "Escape"){ $("#results").classList.remove("open"); }
+    if(e.key === "ArrowDown"){ const f = $("#results button"); if(f){ e.preventDefault(); f.focus(); } }
+    if(e.key === "Enter"){ const f = $("#results button"); if(f){ e.preventDefault(); openHit(INDEX[+f.dataset.hit]); } }
+  });
+  $("#results").addEventListener("click", e => { const b = e.target.closest("[data-hit]"); if(b) openHit(INDEX[+b.dataset.hit]); });
+  $("#results").addEventListener("keydown", e => {
+    const bs = [...document.querySelectorAll("#results button")]; const i = bs.indexOf(document.activeElement);
+    if(e.key === "ArrowDown" && bs[i+1]){ e.preventDefault(); bs[i+1].focus(); }
+    if(e.key === "ArrowUp"){ e.preventDefault(); (bs[i-1] || q).focus(); }
+    if(e.key === "Escape"){ $("#results").classList.remove("open"); q.focus(); }
+  });
+  document.addEventListener("click", e => { if(!e.target.closest(".search")) $("#results").classList.remove("open"); });
+  window.matchMedia("(max-width:900px)").addEventListener?.("change", renderGantt);
+
+  go((location.hash || "#home").slice(1), {keepScroll:true});
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
+    $("#strip").classList.add("animate");
+    setTimeout(() => $("#strip").classList.remove("animate"), 1400);
+  }
+}
+init();
+</script>
+</body>
+</html>

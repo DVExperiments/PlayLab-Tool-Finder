@@ -1,183 +1,91 @@
-# Futures PlayLab pages
+# PlayLab Tool Finder · Owner guide
 
-Interactive pages for the Futures PlayLab Google Site (Master of Technological Futures, academyEX). Each page is a single self-contained `index.html` in its own folder. GitHub Pages hosts them and they are embedded in Google Sites.
+A buildless, responsive directory for GitHub Pages. Tool cards open a right-hand details panel; close it with ×, Escape, or the backdrop. Includes search, category, cost and learning filters, sorting and similar tools. No student accounts or paid services required. Local monogram icons keep the directory independent of external logo services.
 
-| Page | Folder | Live link |
+## 1. Put the website on GitHub
+
+1. Extract the ZIP on your computer.
+2. On GitHub, create a public repository named `playlab-tool-finder`. Choose `main` as its default branch. A public repository is the simplest free Pages route. All uploaded data will be public: keep private notes out.
+3. Upload the CONTENTS of this folder into the repository root, not the outer folder or ZIP. `index.html`, `app.js`, `style.css`, `data`, `scripts` and `.github` should all be at the root. Use **Add file → Upload files**, then **Commit changes**. Check that `.github/workflows/pages.yml` was included: Windows may hide folders beginning with a dot. If missing, choose **Add file → Create new file**, enter `.github/workflows/pages.yml` as the filename, paste the supplied workflow text, and commit.
+4. Open **Settings → Pages**. Under **Build and deployment**, select **GitHub Actions** as the source.
+5. Open **Actions → Build and publish Tool Finder**. If necessary choose **Run workflow → main → Run workflow**. Wait for build and deploy to turn green. The deploy job supplies the actual website URL, normally `https://YOUR-USERNAME.github.io/playlab-tool-finder/`.
+6. Open that URL, try filters, open a card and close it. Bookmark and share the website URL, not the repository URL.
+
+GitHub may ask you to enable Actions on the repository. If an upload creates a different default branch, either rename it main or update the branch under `on: push: branches` in the workflow.
+
+## 2. Prepare your Excel list
+
+**Easiest starting point:** open `data/tools.csv` in Excel, then Save As **Excel Workbook (.xlsx)**. This is already populated from the curated guide. Alternatively use the headers below in your own workbook. A direct copy of the formatted Markdown tables will not produce the required schema.
+
+- Name the worksheet exactly **Tools**.
+- Name the file exactly **tools.xlsx**.
+- Put column headers in row 1, one tool per row. No title rows, merged cells, blank headers or formulas. Use plain values, including plain URL text rather than hidden hyperlink targets.
+- Use these exact lowercase column headers. Keep all supplied columns; blank optional values are fine.
+- Format `last_checked` as **Text** and enter `YYYY-MM-DD`; do not use Excel date serial numbers.
+- Keep tool IDs stable so they remain identifiable across updates.
+
+| Column | Required? | Meaning / example |
 |---|---|---|
-| Student Journey | `student-journey/` | `https://YOUR-USERNAME.github.io/playlab-pages/student-journey/` |
-| Community | `community/` | `https://YOUR-USERNAME.github.io/playlab-pages/community/` |
-| What's On | `whats-on/` | `https://YOUR-USERNAME.github.io/playlab-pages/whats-on/` |
-| About | `about/` | `https://YOUR-USERNAME.github.io/playlab-pages/about/` |
-| Resources | `resources/` | `https://YOUR-USERNAME.github.io/playlab-pages/resources/` |
-| Home | `home/` | `https://YOUR-USERNAME.github.io/playlab-pages/home/` |
-| Play | `play/` | `https://YOUR-USERNAME.github.io/playlab-pages/play/` |
+| id | Yes | Unique lowercase identifier: `clipchamp`; use letters, digits and hyphens only |
+| name | Yes | Display name: `Clipchamp` |
+| category | Yes | Category name, matching existing spelling if joining an existing category |
+| cost | Yes | Human-readable cost, e.g. `Free tier`, `Paid`, `Free; open source` |
+| learning_curve | Yes | Exactly `Easy start`, `Some practice`, `More learning`, or `Not assessed` |
+| description | Yes | Full plain-language description: what it does and when to use it |
+| best_for | Recommended | Short description shown on the card |
+| platform | Recommended | Browser / Windows / macOS / Linux etc. |
+| free_features | Recommended | What free access actually includes; use line breaks for separate points |
+| paid_features | Recommended | What paying unlocks, or say there is no paid core tier |
+| limitations | Recommended | Watermarks, exports, storage, collaboration and other practical restrictions |
+| free_verdict | Recommended | Is free enough for a typical student project? Explain when payment matters |
+| website | Yes | Full official URL starting with https:// |
+| tutorial | Optional | Official beginner tutorial URL |
+| pricing_url | Optional | Official plan comparison URL |
+| last_checked | Recommended | Last feature/plan verification date as text; leave blank if not verified |
+| rank | Optional | Number: lower values appear first in curator order; blank defaults to 100 |
+| published | Optional | `yes` to display, `no` to hide. Blank displays the tool |
 
-## Updating a page
+You can add a category just by entering a new category name. Category navigation is generated automatically. Cost filtering uses whether the cost text contains “free”; use `Paid` for trial-only products, and describe their trial separately. Learning labels are editorial assessments, not timed tests.
 
-All the content you're likely to change (Gens and their dates, key dates, links, contacts, checklist items, how-tos) is in the **DATA** or **SETTINGS** section near the bottom of each `index.html`. Each part has a comment explaining it.
+The starter list contains 37 unique published tools; Krita is listed once and two provisional tools are omitted. Detailed plan comparisons are incomplete for many entries and visibly marked as pending. Fill these in using official sources before describing the guide as fully verified. No beginner tutorial links have been invented.
 
-1. Open the file on GitHub, for example `student-journey/index.html`.
-2. Click the pencil icon (Edit this file).
-3. Press Ctrl+F (Cmd+F on a Mac) and search for what you want to change, for example `const GENS`.
-4. Make your edit, then click **Commit changes**.
-5. The live page updates within a minute or two. If you don't see the change, refresh the Google Site with Ctrl+Shift+R (Cmd+Shift+R on a Mac).
+## 3. Upload the Excel workbook to update the website
 
-Be careful to keep the quote marks, commas and brackets around anything you edit. If the page goes blank after an edit, a missing comma or quote mark is the usual cause. Open the file's **History** on GitHub to see or undo the last change.
+1. Save and close your updated `tools.xlsx` in Excel.
+2. Open your GitHub repository and click the **data** folder.
+3. Choose **Add file → Upload files** and select `tools.xlsx` from your computer.
+4. Check the location is `data/tools.xlsx`, then commit with a message such as “Update tool descriptions”. Replace the existing workbook when updating; keep the filename unchanged.
+5. Open **Actions** and wait for the build and deployment to succeed. The workbook is converted automatically; you do not edit JSON or JavaScript yourself.
+6. Reload the public website. If you still see the old content, hard-refresh with Ctrl+F5.
 
-### My Journey (Student Journey): Gens and key dates
+**Excel takes priority:** when `data/tools.xlsx` exists, the build ignores `tools.csv`. If you want to return to CSV maintenance, delete `data/tools.xlsx` from GitHub and update CSV instead. Uploading Excel without the workflow does not update the website.
 
-Each Gen's official dates (onsite days, weekly sessions, assessments, breaks, for all three parts) are in `const GENS` in `student-journey/index.html`. Step-by-step instructions for adding a Gen or changing a date: [`student-journey/HOW-TO-UPDATE.md`](student-journey/HOW-TO-UPDATE.md).
+The action rebuilds the whole directory from the workbook; removed rows disappear. Updating a workbook replaces its previous uploaded version; it does not append new rows automatically. Keep your local Excel file as your current master.
 
+## 4. Add, hide, reorder or remove tools
 
-## Resources
+- Add: copy an existing Excel row, assign a NEW id, replace every relevant field, and upload the workbook.
+- Hide: set `published` to `no`. This removes it from the UI but is NOT a privacy control: the workbook remains public.
+- Reorder: adjust `rank`. Ordering is editorial preference, not a quality score.
+- Remove: delete its row and re-upload.
+- Change look: colours, spacing and breakpoints are in `style.css`. Text and structure are in `index.html`; interactive behaviour is in `app.js`.
 
-Guides, external resources, policies and FAQs are lists in `resources/index.html`. Tools are read live from the Futures PlayLab Tool Finder repo, which you keep updating with its Excel workbook. Step-by-step instructions: [`resources/HOW-TO-UPDATE.md`](resources/HOW-TO-UPDATE.md).
+## 5. Troubleshooting and recovery
 
+**Red build:** open the failed Actions run, expand “Validate spreadsheet and generate tool data”, and read the row/field error. Common causes: wrong sheet name, missing description, duplicate id, a formula cell, invalid URL or misspelled learning label. Fix Excel and upload again. A failed validation will not replace the last successful site deployment.
 
-## Home
+**No workflow shown:** check `.github/workflows/pages.yml` exists and Actions is enabled. A static repository file upload alone is not deployment.
 
-The home page links to every other page of the Google Site. Paste the site's published address into `siteAddress` in `home/index.html` and all the links work. Its "Coming up" and "In tech news" lists reuse the What's On data, so they update by themselves. Step-by-step instructions: [`home/HOW-TO-UPDATE.md`](home/HOW-TO-UPDATE.md).
+**404 website:** check Pages source is GitHub Actions and the deploy job succeeded; allow GitHub time to publish. Use the URL shown by the deploy job.
 
-## Play
+**Restore an earlier workbook:** open `data/tools.xlsx` on GitHub, choose History, open the desired earlier commit, download that workbook, then upload it again as `data/tools.xlsx` in a new commit. The next successful workflow republishes it. Keep a local backup before overwriting.
 
-The Studio Card and the playground tools are lists in `play/index.html`. Each tool runs inside the page, with a button to open its full page. Step-by-step instructions: [`play/HOW-TO-UPDATE.md`](play/HOW-TO-UPDATE.md).
+**Preview without uploading:** double-click index.html to see the bundled starting data. Excel changes require the GitHub workflow or `python scripts/convert.py` locally. Python 3.10+ is sufficient; no packages are needed. Run that command from the extracted folder, then reopen index.html.
 
-## About
+## Scope and verification
 
-Facts that change (fees, start dates, contact details, team bios and photos, links) are in `SETTINGS` near the bottom of `about/index.html`. Programme content (pillars, the three parts, courses and assessments) follows the MTF Programme Refresh Plan and is in the `PILLARS` and `PARTS` lists just below it. Team photos: upload `claudio.jpg` or `dylan.jpg` (or .png/.webp) to the `about/people` folder and they appear automatically. See `about/people/README.md`.
+Static HTML/CSS/JavaScript, with native accessible modal dialog, keyboard focus return and responsive layout. No external fonts, tracking, logo dependencies or runtime libraries. The owner workflow was designed for current GitHub Actions Pages deployment; actual deployment requires your repository and has not been run on your account.
 
-## What's On
+This version does not include a questionnaire, favourites, an administrator login or automatic vendor-price monitoring. It prioritises browsing, filtering and useful detail pages. Tier information is your curated content, not a live feed.
 
-The calendar and tech news update themselves through a scheduled GitHub job. One-off setup steps are in [`whats-on/SETUP.md`](whats-on/SETUP.md).
-
-## Community: connecting Google Forms and Sheets
-
-> **Day-to-day updates** are explained step by step in [`community/HOW-TO-UPDATE.md`](community/HOW-TO-UPDATE.md). The questions for each Google Form are in [`community/FORMS.md`](community/FORMS.md).
->
-> **The simple way** (no published sheets): keep form responses private, then use the entry helper at `community/add.html` to turn chosen responses into lines you paste into the page. Everything below is an **optional** alternative that reads approved entries straight from a published Google Sheet.
-
-The Community page shows sample content until you connect it. Profiles and shout-outs come from Google Forms through a published, approved-only sheet. The Gallery works differently: students send work privately and the Futures PlayLab team adds pieces by hand (see **Gallery** below).
-
-Do the steps below for these two forms:
-
-| Form | Feeds | Setting in `community/index.html` |
-|---|---|---|
-| Add your profile and pin | The Lounge, the Map Wall, Recently joined | `sheets.people` and `forms.profile` |
-| Send a shout-out | Shout-outs in the Foyer | `sheets.shoutouts` and `forms.shoutout` |
-
-### Sample content
-
-Until each section has real entries, the page shows made-up sample people, gallery pieces and shout-outs so you can see how it looks. Before students see the page, find `showSamples: true` in `SETTINGS` and change it to `showSamples: false`. Empty sections then invite people to add the first entry.
-
-### Before you start: privacy
-
-- **A published sheet can be read by anyone who has its link**, even though the Google Site itself needs an academyEX login. Only the Approved tab is published, but treat everything in it as public: don't collect email addresses, phone numbers or anything else private.
-- Some Google Workspace accounts aren't allowed to "Publish to web" outside the organisation. If the CSV link only works when you're signed in, the page can't read it. Use a Futures PlayLab Google account that is allowed to publish, or ask IT.
-- Add a required consent question to every form, for example "I'm happy for this to appear on the Futures PlayLab Community page". Only approve entries where it's ticked.
-
-### 1. Make the form
-
-Suggested questions. The page recognises these wordings (and close variations), so keep the key words.
-
-**Add your profile and pin**
-- Your name *(short answer)*
-- Are you a… *(multiple choice: Current student, Alumni, Future student, Staff)*
-- Which Gen are you in? *(short answer, e.g. Gen31. Staff can leave blank)*
-- Town or city you live in
-- Country you live in *(dropdown is best, so spelling is consistent)*
-- Where are you from? (country) *(optional: a second pin for heritage or where you grew up)*
-- What do you do? (profession or context)
-- Interests *(separate with commas)*
-- Ask me about
-- Portfolio or LinkedIn link *(optional)*
-- Photo *(optional, see Photos below)*
-- Consent checkbox
-
-**Send a shout-out**
-- Your shout-out message
-- From *(your name)*
-
-In each form's **Settings**, leave "Collect email addresses" off.
-
-### 2. Link the form to a sheet and add an Approved column
-
-1. In the form, open the **Responses** tab and click **Link to Sheets**, then create a new spreadsheet.
-2. In the sheet, on the "Form responses 1" tab, type `Approved` in the first empty column heading, after the last question.
-3. Select that column below the heading and choose **Insert → Checkbox**. Tick a box to approve that entry; untick it to hide the entry again.
-
-### 3. Make the Approved tab
-
-1. Add a new tab (the **+** at the bottom left) and rename it `Approved`.
-2. In cell A1 of the Approved tab, paste this, changing `M` to the letter of your Approved column:
-
-   ```
-   =QUERY('Form responses 1'!A:M, "select * where M = true", 1)
-   ```
-
-   The tab now shows the heading row plus approved entries only.
-
-### 4. Publish the Approved tab
-
-1. Choose **File → Share → Publish to web**.
-2. In the first dropdown choose the **Approved** tab (not "Entire document"). In the second choose **Comma-separated values (.csv)**.
-3. Under "Published content and settings", make sure "Automatically republish when changes are made" is ticked.
-4. Click **Publish** and copy the link.
-
-### 5. Paste the links into the page
-
-In `community/index.html`, find `const SETTINGS` and paste:
-- the CSV link into `sheets.people` or `sheets.shoutouts`
-- the form's share link (Send → link icon) into `forms.profile` or `forms.shoutout`
-
-While you're there, add your Slack invite link (`slackJoin`), each Slack channel's link (`channels`), your FrameVR space link (`frame.url`) and any upcoming Portal sessions (`frame.sessions`).
-
-Approved entries appear on the page within about five minutes: Google takes a few minutes to update published sheets.
-
-### Gallery
-
-The Gallery has no published sheet. Students send work to the Futures PlayLab team, you keep the submissions private, and you choose what goes on the page.
-
-**Set up the form (once)**
-1. Make a Google Form called something like "Send us your work for the Gallery". Suggested questions: Your name (or everyone who made it); Title of your work; Which Gen are you in?; Is this project work or a community moment?; Course or assessment (optional); Tell us about it; Upload your image (File upload); Link to the full piece (optional); and a required consent checkbox.
-2. Link it to a sheet (**Responses → Link to Sheets**). Keep this sheet and the upload folder **private**. Don't publish them.
-3. Paste the form's share link into `forms.gallery` in `community/index.html`. The "Send us your work" buttons will open it.
-
-**Add a piece to the page**
-1. Download the image from the form's upload folder. Resize it to about 1600px wide; a .jpg under 500KB is ideal.
-2. On GitHub, open the `community/gallery` folder, click **Add file → Upload files**, upload the image and click **Commit changes**. Give it a simple name with no spaces, e.g. `kai-futures.jpg`.
-3. Open `community/index.html`, click the pencil icon, and find `const GALLERY`. Add an entry inside the square brackets (newest first):
-
-   ```js
-   {title:"Kai Futures 2040", maker:"Aroha Tane", gen:"Gen31", type:"Project", course:"Disruption Report", description:"A speculative menu from a 2040 marae kitchen.", image:"gallery/kai-futures.jpg", link:""},
-   ```
-
-   `type` is `"Project"` or `"Community"`. `course` and `link` can be left as `""`.
-4. Click **Commit changes**. The piece appears within a minute or two. Once there's at least one entry, the sample gallery disappears.
-
-Images in the repo can be viewed by anyone with their link, so only upload pieces the maker has agreed to share.
-
-### Photos
-
-The page can show images from a link (any `https://` image address) or from Google Drive.
-
-- **Drive files must be shared as "Anyone with the link can view"**, or they won't load and the page shows placeholder artwork instead.
-- If you use a **File upload** question in the form, people must sign in to Google to answer, and uploads go into a Drive folder that is private by default. Open that folder in Drive and share it as "Anyone with the link can view" so the photos show.
-- If you'd rather keep photos off for now, leave the photo question out. People show as coloured initials.
-- Want the same privacy for profile photos? Leave the photo question out of the profile form, collect photos privately, upload the ones you approve to a `community/people` folder, and put the file name (e.g. `people/aroha.jpg`) in the Photo column of the Approved tab.
-- If the site ever goes public, you can turn photos and full names off in `SETTINGS` (`showPhotos` and `showFullNames`).
-
-### The map
-
-Map Wall pins come from people's profiles plus the separate Map Wall form. Adding pins from that form is explained in `community/HOW-TO-UPDATE.md`.
-
-
-- Pins sit on the person's town or city when the page knows it (most towns in Aotearoa and some big cities worldwide are built in). Otherwise the pin goes in the middle of their country.
-- Country names are matched flexibly (NZ, Aotearoa, USA, UK and so on all work). To place a pin exactly, add `Lat` and `Lng` columns to the sheet with coordinates.
-- To add more towns, find `const PLACES` in the file and add a line like `"kaikoura":[-42.4,173.68],`.
-
-## Adding a new page
-
-1. Make a new folder named after the page, for example `whats-on`, containing an `index.html`.
-2. On GitHub, click **Add file → Upload files** and drag the folder in.
-3. Add the page to the table above and to the list in the root `index.html`.
-4. The page will be live at `https://YOUR-USERNAME.github.io/playlab-pages/FOLDER-NAME/`.
+References: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages and https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository
